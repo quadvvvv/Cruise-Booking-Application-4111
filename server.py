@@ -14,14 +14,21 @@ from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, flash, request, render_template, g, redirect, Response
 
+import random
+
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 # tried to use flash but doesn't seem to work well...
 app.secret_key = b'whatever'
 
 #Global Variables
-cred_id = None
 cust_username = None
+cred_id = None
+cust_id = None
+user_budget = None
+user_specialty = None
+user_rating = None
+
 
 
 #cred_id = random generated!
@@ -213,10 +220,10 @@ def user_login():
   # tested!
   
   if(password == result['cust_password']):
-    global user_name, cred_id
-    user_name = username
+    global cust_username, cred_id
+    cust_username = username
     cred_id = result['cred_id']
-    context = dict(userName = user_name)
+    context = dict(userName = cust_username)
     return render_template("user_home.html", **context)
   # case 2.2 - unsuccessful login -> return to the login page
   # tested!
@@ -227,7 +234,63 @@ def user_login():
 
 @app.route('/register')
 def register():
-  return render_template("register.html")
+  context = dict(regMsg = "Please register an account")
+  return render_template("register.html", **context)
+
+@app.route('/user_register', methods=['POST'])
+def user_register():
+ 
+  
+  username = request.form['username']
+  password = request.form['password']
+  budget = request.form['cust_budget']
+  specialty = request.form['cust_specialty']
+  rating = request.form['cust_rating']
+
+  # randomly assign cred_id
+  cursor = g.conn.execute('SELECT cred_id FROM credentials')
+  new_cred_id =  random.randint(0,1000)
+  while( new_cred_id in cursor['cred_id']):
+    new_cred_id = random.randint(0,1000)
+  
+  # case 2.1 - failed registration, failed insertion into credentials
+  try:
+    # step 1 - insert cust_username cust_password
+    args = (new_cred_id, username, password)
+    g.conn.execute('INSERT INTO credentials(cred_id, cust_username, cust_password) VALUES(%d, %s, %s)', args)
+  except:
+    context = dict(regMsg = "Invalid username ⚠️, please try again⚠️")
+    return render_template("register.html", **context)
+  
+  # randomly assign cust_id
+  cursor = g.conn.execute('SELECT cust_id FROM customers_cred')
+  new_cust_id =  random.randint(0,1000)
+  while( new_cust_id in cursor['cred_id']):
+    new_cust_id = random.randint(0,1000)
+  
+  # case 2.2 - failed registration, failed insertion into customers_cred
+  try:
+    args = (new_cust_id, new_cred_id, username, budget, specialty, rating)
+    g.conn.execute('INSERT INTO credentials(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%d, %d, %s, %f, %s, %d)', args)
+  except:
+    context = dict(regMsg = "Invalid preferences ⚠️, please try again⚠️")
+    return render_template("register.html", **context)
+
+  # case 1 - successful registration, continue to user_home
+  global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
+  cust_username = username
+  cred_id = new_cred_id
+  cust_id = new_cust_id
+  user_budget = budget
+  user_specialty = specialty
+  user_rating = rating
+
+  context = dict(userName = cust_username)
+  return render_template("user_home.html", **context)
+  # case 2 - failed registration, try again
+
+  context = dict(regMsg = "Invalid input ⚠️, please register with correct values again⚠️")
+  return render_template("register.html", **context)
 
 @app.route('/user_home')
 def user_home():
