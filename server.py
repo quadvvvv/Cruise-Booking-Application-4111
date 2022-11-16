@@ -113,7 +113,7 @@ def teardown_request(exception):
 # see for routing: https://flask.palletsprojects.com/en/2.0.x/quickstart/?highlight=routing
 # see for decorators: http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/
 #
-@app.route('/')
+@app.route('/index')
 def index():
   """
   request is a special object that Flask provides to access web request information:
@@ -185,6 +185,9 @@ def another():
   return render_template("another.html")
 
 #vanila temp
+@app.route('/')
+def home():
+  render_template("home.html")
 
 @app.route('/login')
 def login():
