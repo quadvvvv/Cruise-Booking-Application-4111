@@ -201,7 +201,9 @@ def home():
   user_budget = None
   user_specialty = None
   user_rating = None 
-  return render_template("home.html")
+  home_msg = 'Welcome to CruiseWithMe'
+  context=dict(homeMsg = home_msg)
+  return render_template("home.html", **context)
 
 @app.route('/login')
 def login():
@@ -327,12 +329,21 @@ def user_register():
 
 @app.route('/user_home')
 def user_home():
-  #
+  global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
+  # case 1 - reroute from login 
+  # all globals should have been set by user_login()
+  print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating)))
+  # case 2 - reroute from register
+  # all globals should have been set!
+  print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating)))
+  
   return render_template("user_home.html")
 
 @app.route('/home')
 def home_2():
-  return render_template("home.html")
+  home_msg = 'Welcome Back to CruiseWithMe'
+  context=dict(homeMsg = home_msg)
+  return render_template("home.html", **context)
 
 
 # Example of adding new data to the database
