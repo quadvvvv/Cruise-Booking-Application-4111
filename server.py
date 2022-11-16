@@ -300,7 +300,7 @@ def user_register():
   
   try:
     args = (str(new_cust_id), str(new_cred_id), username, budget, specialty, rating)
-    g.conn.execute('INSERT INTO customers_cred(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%s, %s, %s, %s, %s, %d)', args)
+    g.conn.execute('INSERT INTO customers_cred(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%s, %s, %s, %s, %s, %s)', args)
   except:
     traceback.print_exc()
     g.conn.execute('DELETE FROM credentials C WHERE C.cust_username=(%s)', username)
