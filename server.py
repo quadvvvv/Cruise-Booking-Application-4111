@@ -304,7 +304,7 @@ def user_register():
     g.conn.execute('INSERT INTO customers_cred(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%s, %s, %s, %.2f, %s, %d)', args)
   except Exception as e:
     print(e)
-    g.conn.execute('DELETE FROM credentials C WHERE C.cust_usernmae=(%s)', username)
+    g.conn.execute('DELETE FROM credentials C WHERE C.cust_username=(%s)', username)
     # case 2.2 - failed registration, failed insertion into customers_cred
     context = dict(regMsg = "Invalid preferences ⚠️, please try again⚠️")
     return render_template("register.html", **context)
