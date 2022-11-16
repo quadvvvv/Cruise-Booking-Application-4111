@@ -291,6 +291,7 @@ def user_register():
   except Exception as e:
     print(e)
     ##to see the exceptions
+    # add a line to remove the user_cred if this part failed
     context = dict(regMsg = "Invalid username ⚠️, please try again⚠️")
     return render_template("register.html", **context)
   
