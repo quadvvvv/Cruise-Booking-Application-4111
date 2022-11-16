@@ -16,6 +16,7 @@ from flask import Flask, flash, request, render_template, g, redirect, Response
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
+app.secret_key = b'whatever'
 
 
 #cred_id = random generated!
