@@ -5,6 +5,12 @@
       font-size: 15pt;
       font-family: arial;
     }
+    table{
+      text-align: center;
+    }
+    tr:nth-child(even) {
+  background-color: #D6EEEE;
+    }
   </style>
     <body>
         <h1>🌊🌊🚢🌊🌊Hello, {{userName}} 🌊🌊🚢🌊🌊</h1>
@@ -16,8 +22,8 @@
             <tr>
               <th>book_id</th>
               <th>comp_id</th>
-              <th>cust_id/th>
-              <th>cruise_id/th>
+              <th>cust_id</th>
+              <th>cruise_id</th>
             </tr>
           </thead>
           <tbody>
@@ -26,7 +32,7 @@
                 <td>{{ record['book_id'] }}</td>
                 <td>{{ record['comp_id'] }}</td>
                 <td>{{ record['cust_id'] }}</td>
-                <td>{{ record['cruise_id'] }}</td>
+                <td>{{ record['cruise_id']}}</td>
               </tr>
             {% endfor %}
           </tbody>
