@@ -261,6 +261,7 @@ def register():
 @app.route('/user_register', methods=['POST'])
 def user_register():
  
+  print(request.form)
   username = request.form['username']
   password = request.form['password']
   budget = request.form['cust_budget']
