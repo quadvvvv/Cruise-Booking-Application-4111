@@ -290,6 +290,7 @@ def user_register():
     g.conn.execute('INSERT INTO credentials(cred_id, cust_username, cust_password) VALUES(%s, %s, %s)', args)
   except Exception as e:
     print(e)
+    ##to see the exceptions
     context = dict(regMsg = "Invalid username ⚠️, please try again⚠️")
     return render_template("register.html", **context)
   
