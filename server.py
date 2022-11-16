@@ -214,7 +214,7 @@ def user_login():
     user_name = username
     cred_id = result['cred_id']
     context = dict(userName = user_name)
-    return redirect("/user_home", **context)
+    return render_template("user_home.html", **context)
   # case 2.2 - unsuccessful login -> return to the login page
   # tested!
   else:
