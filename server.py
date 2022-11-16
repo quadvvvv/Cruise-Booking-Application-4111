@@ -189,10 +189,10 @@ def login():
 def user_login():
   username = request.form['username']
   password = request.form['password']
-  # debug
-  print("debugging:")
-  print(username)
-  print(password)
+  # # debug
+  # print("debugging:")
+  # print(username)
+  # print(password)
   # case 1 - successful login -> move to user_home
   flash('You were successfully logged in')
   return redirect(user_home)
