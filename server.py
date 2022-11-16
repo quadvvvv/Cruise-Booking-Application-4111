@@ -262,8 +262,8 @@ def register():
 @app.route('/user_register', methods=['POST'])
 def user_register():
   
-  #debug
-  print(request.form)
+  # #debug
+  # print(request.form)
   username = request.form['username']
   password = request.form['password']
   budget = request.form['cust_budget']
@@ -299,7 +299,6 @@ def user_register():
     new_cust_id = random.randint(0,1000)
   
   try:
-    ###123
     args = (str(new_cust_id), str(new_cred_id), username, budget, specialty, rating)
     g.conn.execute('INSERT INTO customers_cred(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%s, %s, %s, %s, %s, %s)', args)
   except:
@@ -328,6 +327,7 @@ def user_register():
 
 @app.route('/user_home')
 def user_home():
+  #
   return render_template("user_home.html")
 
 @app.route('/home')
