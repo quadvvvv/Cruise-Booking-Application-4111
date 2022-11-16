@@ -184,7 +184,8 @@ def another():
 
 @app.route('/login')
 def login():
-  return render_template("login.html")
+  context = dict(prompt_msg = "Please login to your account")
+  return render_template("login.html", **context )
 
 @app.route('/user_login', methods=['POST'])
 def user_login():
@@ -194,17 +195,22 @@ def user_login():
   cursor = g.conn.execute('SELECT C.cust_password FROM credentials C WHERE C.cust_username= (%s)', username)
   # case 2.1 - unsuccessful login, non-existent user -> return to the login page
   if(cursor.rowcount <= 0):
-    return render_template("login.html")
- 
+    context = dict(prompt_msg = "⚠️Your username doesn't exist in our database, please try again⚠️")
+    return render_template("login.html", **context )
+  # tested!
+
   result = cursor.fetchone()
   #debug
   print(result)
   # case 1 - successful login -> move to user_home
+  # tested!
   if(password == result['cust_password']):
     return redirect("/user_home")
   # case 2.2 - unsuccessful login -> return to the login page
+  # tested!
   else:
-    return render_template("login.html")
+    context = dict(prompt_msg = "⚠️Wrong password, please try again⚠️")
+    return render_template("login.html", **context )
   
 
 @app.route('/register')
