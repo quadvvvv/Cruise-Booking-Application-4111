@@ -1,0 +1,55 @@
+<html>
+    <style>
+    body{ 
+      text-align: center;
+      font-size: 15pt;
+      font-family: arial;
+    }
+  </style>
+    <body>
+        <body>
+            <h1>🌊🌊🚢🌊🌊Welcome to CruiseWithMe 🌊🌊🚢🌊🌊</h1>
+            <p> Your online cruise booking manager. 🤠</p>
+            <br>
+            <br>
+
+            <h4> 🍃Please register your account:</h4>
+            <form method="post" action="/register">
+                <label for="cust_username">Username</label>
+                <input type="text" name="cust_id" id="cust_id" required>
+                <br>
+                <label for="cust_password">Password</label>
+                <input type="text" name="password" id="password" required>
+                <br>
+                <label for="cust_budget">How much is your budget?</label>
+                <input type="number" step="0.01" min=0 name="cust_budget"
+                    id="cust_budget" required>
+                <br>
+
+                <label for="cust_specialty">Choose a specialty:</label>
+
+                <select name="specialties" id="cust_specialty">
+                    <option value="">--Please choose a specialty--</option>
+                    <option value="nightlife">nightlife</option>
+                    <option value="family-friendly">family-friendly</option>
+                    <option value="chilled">chilled</option>
+                    <option value="landscape">landscape</option>
+                    <option value="energetic">energetic</option>
+                </select>
+
+                <br>
+                <label for="cust_rating">Over what rating would you prefer?
+                    (Between 0 and 5)</label>
+                <input type="number" step="1" name="cust_rating"
+                    id="cust_rating" required>
+                <br> <br>
+                <input type="submit" value="Submit">
+
+            </form>
+
+            <p>🍃<a href="index">return to the homepage</a></p>
+
+        </body>
+
+
+    </html>
