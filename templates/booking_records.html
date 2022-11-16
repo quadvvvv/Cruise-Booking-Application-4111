@@ -11,14 +11,26 @@
         <br>
         <p> 🍃Here's your booking records 🔍: </p>
         <br>
-        <div>{{userRecords}}</div>
-
-        <div>
-            {% for n in data %}
-            <div>{{n}}</div>
+        <table id="data" class="table table-striped">
+          <thead>
+            <tr>
+              <th>book_id</th>
+              <th>comp_id</th>
+              <th>cust_id/th>
+              <th>cruise_id/th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in userRecords %}
+              <tr>
+                <td>{{ record['book_id'] }}</td>
+                <td>{{ record['comp_id'] }}</td>
+                <td>{{ record['cust_id'] }}</td>
+                <td>{{ record['cruise_id'] }}</td>
+              </tr>
             {% endfor %}
-        </div>
-        <br>
+          </tbody>
+        </table>
 
         <p>🌸<a href="user_home">Back to your options</a>.</p>
         <p>🍃<a href="home">Exit login & Return to home</a>.</p>
