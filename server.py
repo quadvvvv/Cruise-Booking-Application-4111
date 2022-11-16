@@ -195,7 +195,7 @@ def user_login():
   # print(password)
   # case 1 - successful login -> move to user_home
   flash('You were successfully logged in')
-  return redirect("/user_home.html")
+  return redirect("/user_home")
   # case 2 - unsuccessful login -> return to the current login page
 
 
