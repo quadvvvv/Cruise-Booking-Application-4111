@@ -209,43 +209,47 @@ def login():
 
 @app.route('/user_login', methods=['POST'])
 def user_login():
-  username = request.form['username']
-  password = request.form['password']
+  try:
+    username = request.form['username']
+    password = request.form['password']
 
-  cursor = g.conn.execute('SELECT C.cred_id, C.cust_password FROM credentials C WHERE C.cust_username= (%s)', username)
-  # case 2.1 - unsuccessful login, non-existent user -> return to the login page
-  if(cursor.rowcount <= 0):
-    context = dict(promptMsg = "Your username doesn't exist in our database⚠️, please try again⚠️")
-    return render_template("login.html", **context )
-  # tested!
+    cursor = g.conn.execute('SELECT C.cred_id, C.cust_password FROM credentials C WHERE C.cust_username= (%s)', username)
+    # case 2.1 - unsuccessful login, non-existent user -> return to the login page
+    if(cursor.rowcount <= 0):
+      context = dict(promptMsg = "Your username doesn't exist in our database⚠️, please try again⚠️")
+      return render_template("login.html", **context )
+    # tested!
 
-  result = cursor.fetchone()
-  # case 1 - successful login -> move to user_home
-  # tested :)
-  
-  if(password == result['cust_password']):
-    # set global fields
-    global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
-    cust_username = username
-
-    # fetch other user data needed
-    cursor = g.conn.execute('SELECT * FROM customers_cred C WHERE C.cust_name = (%s)', cust_username)
     result = cursor.fetchone()
-    # #debug
-    # print(result)
-    cred_id = result['cred_id']
-    cust_id = result['cust_id']
-    user_budget = result['cust_budget']
-    user_specialty = result['cust_specialty']
-    user_rating = result['cust_rating']
+    # case 1 - successful login -> move to user_home
     # tested :)
+    
+    if(password == result['cust_password']):
+      # set global fields
+      global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
+      cust_username = username
 
-    context = dict(userName = cust_username)
-    return render_template("user_home.html", **context)
-  # case 2.2 - unsuccessful login -> return to the login page
-  # tested!
-  else:
-    context = dict(promptMsg = "Wrong password⚠️, please try again⚠️")
+      # fetch other user data needed
+      cursor = g.conn.execute('SELECT * FROM customers_cred C WHERE C.cust_name = (%s)', cust_username)
+      result = cursor.fetchone()
+      # #debug
+      # print(result)
+      cred_id = result['cred_id']
+      cust_id = result['cust_id']
+      user_budget = result['cust_budget']
+      user_specialty = result['cust_specialty']
+      user_rating = result['cust_rating']
+      # tested :)
+
+      context = dict(userName = cust_username)
+      return render_template("user_home.html", **context)
+    # case 2.2 - unsuccessful login -> return to the login page
+    # tested!
+    else:
+      context = dict(promptMsg = "Wrong password⚠️, please try again⚠️")
+      return render_template("login.html", **context )
+  except:
+    context = dict(promptMsg = "Error during login⚠️, please verify and try again⚠️")
     return render_template("login.html", **context )
   
 
@@ -287,11 +291,11 @@ def user_register():
   while( new_cust_id in cursor['cred_id']):
     new_cust_id = random.randint(0,1000)
   
-  # case 2.2 - failed registration, failed insertion into customers_cred
   try:
     args = (str(new_cust_id), str(new_cred_id), username, budget, specialty, rating)
     g.conn.execute('INSERT INTO customers_cred(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%s, %s, %s, %f, %s, %d)', args)
   except:
+    # case 2.2 - failed registration, failed insertion into customers_cred
     context = dict(regMsg = "Invalid preferences ⚠️, please try again⚠️")
     return render_template("register.html", **context)
 
