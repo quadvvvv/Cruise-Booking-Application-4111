@@ -29,8 +29,6 @@ user_budget = None
 user_specialty = None
 user_rating = None
 
-
-
 #cred_id = random generated!
 # login
 # case 1 - valid, continue to the homepage for user
@@ -194,6 +192,14 @@ def another():
 #vanila temp
 @app.route('/')
 def home():
+  # reset global fields everytime return to home
+  global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
+  cust_username = None
+  cred_id = None
+  cust_id = None
+  user_budget = None
+  user_specialty = None
+  user_rating = None 
   return render_template("home.html")
 
 @app.route('/login')
