@@ -269,16 +269,11 @@ def user_register():
   specialty = request.form['cust_specialty']
   rating = request.form['cust_rating']
  
-  #debug
-  print(request.form)
-
   # randomly assign cred_id
   cursor = g.conn.execute('SELECT cred_id FROM credentials')
   new_cred_id =  random.randint(0,1000)
 
   results = cursor.fetchall()
-  # #debug
-  # print(results)
 
   while( new_cred_id in results):
     new_cred_id = random.randint(0,1000)
@@ -300,17 +295,16 @@ def user_register():
   new_cust_id =  random.randint(0,1000)
 
   results = cursor.fetchall()
-  # #debug
-  # print(results)
 
   while( new_cust_id in results):
     new_cust_id = random.randint(0,1000)
   
   try:
     args = (str(new_cust_id), str(new_cred_id), username, budget, specialty, rating)
-    g.conn.execute('INSERT INTO customers_cred(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%s, %s, %s, %f, %s, %d)', args)
+    g.conn.execute('INSERT INTO customers_cred(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%s, %s, %s, %.2f, %s, %d)', args)
   except Exception as e:
     print(e)
+    g.conn.execute('DELETE FROM credentials C WHERE C.cust_usernmae=(%s)', username)
     # case 2.2 - failed registration, failed insertion into customers_cred
     context = dict(regMsg = "Invalid preferences ⚠️, please try again⚠️")
     return render_template("register.html", **context)
