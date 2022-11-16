@@ -355,6 +355,22 @@ def add():
   g.conn.execute('INSERT INTO test(name) VALUES (%s)', name)
   return redirect('/')
 
+@app.route('/booking_records')
+def booking_recrods():
+  global cust_username, cred_id, cust_id
+  try:
+    records = []
+    cursor = g.conn.execute('SELECT * FROM booking_records b WHERE b.cust_id = (%s)', cust_id)
+    records = cursor.fetchAll()
+    
+    context=dict(userName = cust_username)
+    context.update(userRecords = records)
+  except:
+    traceback.print_exc()
+    context = dict(userName = cust_username)
+    return render_template("user_home.html", **context)
+
+  return render_template("booking_records.html", **context)
 
 # @app.route('/login')
 # def login():
