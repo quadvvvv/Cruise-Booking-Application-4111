@@ -12,7 +12,7 @@ import os
   # accessible as a variable in index.html:
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from flask import Flask, request, render_template, g, redirect, Response
+from flask import Flask, flash, request, render_template, g, redirect, Response
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
@@ -183,6 +183,20 @@ def another():
 @app.route('/login')
 def login():
   return render_template("login.html")
+
+@app.route('/user_login', methods=['POST'])
+def user_login():
+  username = request.form['username']
+  password = request.form['password']
+  # debug
+  print("debugging:")
+  print(username)
+  print(password)
+  # case 1 - successful login -> move to user_home
+  flash('You were successfully logged in')
+  return redirect(user_home)
+  # case 2 - unsuccessful login -> return to the current login page
+
 
 @app.route('/register')
 def register():
