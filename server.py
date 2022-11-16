@@ -275,7 +275,12 @@ def user_register():
   # randomly assign cred_id
   cursor = g.conn.execute('SELECT cred_id FROM credentials')
   new_cred_id =  random.randint(0,1000)
-  while( new_cred_id in cursor['cred_id']):
+
+  results = cursor.fetchAll()
+  #debug
+  print(results)
+
+  while( new_cred_id in results):
     new_cred_id = random.randint(0,1000)
   
   # case 2.1 - failed registration, failed insertion into credentials
@@ -290,7 +295,12 @@ def user_register():
   # randomly assign cust_id
   cursor = g.conn.execute('SELECT cust_id FROM customers_cred')
   new_cust_id =  random.randint(0,1000)
-  while( new_cust_id in cursor['cred_id']):
+
+  results = cursor.fetchAll()
+  #debug
+  print(results)
+
+  while( new_cust_id in results):
     new_cust_id = random.randint(0,1000)
   
   try:
