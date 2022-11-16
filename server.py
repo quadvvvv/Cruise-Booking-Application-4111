@@ -361,7 +361,7 @@ def booking_recrods():
   try:
     records = []
     cursor = g.conn.execute('SELECT * FROM booking_records b WHERE b.cust_id = (%s)', cust_id)
-    records = cursor.fetchAll()
+    records = cursor.fetchall()
     
     context=dict(userName = cust_username)
     context.update(userRecords = records)
