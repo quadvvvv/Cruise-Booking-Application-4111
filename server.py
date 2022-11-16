@@ -276,7 +276,7 @@ def user_register():
   cursor = g.conn.execute('SELECT cred_id FROM credentials')
   new_cred_id =  random.randint(0,1000)
 
-  results = cursor.fetchAll()
+  results = cursor.fetchall()
   #debug
   print(results)
 
@@ -296,7 +296,7 @@ def user_register():
   cursor = g.conn.execute('SELECT cust_id FROM customers_cred')
   new_cust_id =  random.randint(0,1000)
 
-  results = cursor.fetchAll()
+  results = cursor.fetchall()
   #debug
   print(results)
 
