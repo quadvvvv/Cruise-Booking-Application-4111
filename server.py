@@ -17,6 +17,27 @@ from flask import Flask, request, render_template, g, redirect, Response
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 
+cust_id
+cust_name
+
+
+#cred_id = random generated!
+# login
+# case 1 - valid, continue to the homepage for user
+# case 2 - invalid, please login again
+
+# register
+# step 1 - register password & fill in user information
+# step 2 - redirect to homepage for user
+
+# homepage for user
+# three options:
+# 1. Feeling Lucky! -> Random Suggestion based on the user's info
+# -> New HTML -> with book option -> inject into booking records
+# 2. Direct Search by Cruise ID
+# -> New HTML -> With book option -> inject into booking records 
+# 3. Vague Search for new cruise -> Filtering 
+# -> New HTML -> With book option -> inject into booking records
 
 #
 # The following is a dummy URI that does not connect to a valid database. You will need to modify it to connect to your Part 2 database in order to use the data.
@@ -105,7 +126,6 @@ def index():
   # DEBUG: this is debugging code to see what request looks like
   print(request.args)
 
-
   #
   # example of a database query
   #
@@ -143,7 +163,6 @@ def index():
   #
   context = dict(data = names)
 
-
   #
   # render_template looks in the templates/ folder for files.
   # for example, the below file reads template/index.html
@@ -161,6 +180,24 @@ def index():
 @app.route('/another')
 def another():
   return render_template("another.html")
+
+#vanila temp
+
+@app.route('/login')
+def login():
+  return render_template("login.html")
+
+@app.route('/register')
+def register():
+  return render_template("register.html")
+
+@app.route('/user_home')
+def user_home():
+  return render_template("user_home.html")
+
+@app.route('/home')
+def home():
+  return render_template("home.html")
 
 
 # Example of adding new data to the database
