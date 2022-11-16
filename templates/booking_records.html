@@ -1,5 +1,5 @@
 <html>
-    <style>
+  <style>
     body{ 
       text-align: center;
       font-size: 15pt;
@@ -12,66 +12,64 @@
   background-color: #B6D4E7;
     }
   </style>
-    <body>
-        <h1>🌊🌊🚢🌊🌊Hello, {{userName}} 🌊🌊🚢🌊🌊</h1>
-        <br>
-        <p> 🍃Here's your booking records 🔍: </p>
-        <br>
-        <table id="booking_data" style="margin-left: auto;
-        margin-right: auto;">
-          <thead style="background-color: #B6D4E7;">
-            <tr>
-              <th>Booking Id</th>
-              <th>Company Id</th>
-              <th>Customer Id</th>
-              <th>Cruise Id</th>
+  <body>
+    <h1>🌊🌊🚢🌊🌊Hello, {{userName}} 🌊🌊🚢🌊🌊</h1>
+    <br>
+    <p> 🍃Here's your booking records 🔍: </p>
+    <br>
+    <table id="booking_data" style="margin-left: auto;
+      margin-right: auto;">
+      <thead style="background-color: #B6D4E7;">
+        <tr>
+          <th>Booking Id</th>
+          <th>Company Id</th>
+          <th>Customer Id</th>
+          <th>Cruise Id</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in userRecords %}
+        <tr>
+          <td>{{ record['book_id'] }}</td>
+          <td>{{ record['comp_id'] }}</td>
+          <td>{{ record['cust_id'] }}</td>
+          <td>{{ record['cruise_id']}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p> 🍃Here's the detailed information about each cruise you've booked 🔍:
+    </p>
+    <br>
+    <table id="cruise_data" style="margin-left: auto;
+      margin-right: auto;">
+      <thead style="background-color: #d9f5c9;">
+        <tr>
+          <th>Cruise Id <th>
+              <th>Cruise Name</th>
+              <th>Cruise Rating</th>
+              <th>Cruise Cost</th>
+              <th>Cruise Start Date</th>
+              <th>Cruise End Date</th>
             </tr>
           </thead>
           <tbody>
-            {% for record in userRecords %}
-              <tr>
-                <td>{{ record['book_id'] }}</td>
-                <td>{{ record['comp_id'] }}</td>
-                <td>{{ record['cust_id'] }}</td>
-                <td>{{ record['cruise_id']}}</td>
-              </tr>
+            {% for cruise_id, cruise_info in cruiseRecords.items() %}
+            <tr>
+              <td> {{cruise_id}} </td>
+              <td>{{ cruise_info['cruise_name'] }}</td>
+              <td>{{ cruise_info['cruise_rating'] }}</td>
+              <td>{{ cruise_info['cruise_cost'] }}</td>
+              <td>{{ cruise_info['cruise_start_date']}}</td>
+              <td>{{ cruise_info['cruise_end_date']}}</td>
+            </tr>
             {% endfor %}
           </tbody>
         </table>
 
-        <p> 🍃Here's the detailed information about each cruise you've booked 🔍: </p>
-        <br>
-        {% for cruise_id, cruise_info in cruiseRecords.items() %}
-
-        <p>
-          Here is the detailed info for Cruise Id,{{cruise_id}} 📖:
-        </p>
-          <table id=cruise_id style="margin-left: auto;
-          margin-right: auto;">
-            <thead style="background-color: #d9f5c9;">
-              <tr>
-                <th>Cruise Name</th>
-                <th>Cruise Rating</th>
-                <th>Cruise Cost</th>
-                <th>Cruise Start Date</th>
-                <th>Cruise End Date</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr>
-                  <td>{{ cruise_info['cruise_name'] }}</td>
-                  <td>{{ cruise_info['cruise_rating'] }}</td>
-                  <td>{{ cruise_info['cruise_cost'] }}</td>
-                  <td>{{ cruise_info['cruise_start_date']}}</td>
-                  <td>{{ cruise_info['cruise_end_date']}}</td>
-                </tr>
-            </tbody>
-          </table>
-        {% endfor %}
-
-
         <p>🌸<a href="user_home">Back to your options</a>.</p>
         <p>🍃<a href="home">Exit login & Return to home</a>.</p>
         <br>
-    </body>
-</html>
+      </body>
+    </html>

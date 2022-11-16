@@ -373,7 +373,6 @@ def booking_recrods():
       cruise = cursor.fetchone()
       cruise_records.update(cruise_id = cruise)
       # get cruise dest_info
-  
 
     
     context=dict(userName = cust_username)
