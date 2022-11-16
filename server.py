@@ -214,15 +214,25 @@ def user_login():
   # tested!
 
   result = cursor.fetchone()
-  #debug
-  print(result)
   # case 1 - successful login -> move to user_home
   # tested!
   
   if(password == result['cust_password']):
-    global cust_username, cred_id
+    # set global fields
+    global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
     cust_username = username
+
+    # fetch other user data needed
+    cursor = g.conn.execute('SELECT * FROM customers_cred C WHERE C.cust_name = (%s)', cust_username)
+    result = cursor.fetchone()
+    #debug
+    print(result)
     cred_id = result['cred_id']
+    cust_id = result['cust_id']
+    user_budget = result['cust_budget']
+    user_specialty = result['cust_specialty']
+    user_rating = result['cust_rating']
+
     context = dict(userName = cust_username)
     return render_template("user_home.html", **context)
   # case 2.2 - unsuccessful login -> return to the login page
@@ -256,8 +266,8 @@ def user_register():
   # case 2.1 - failed registration, failed insertion into credentials
   try:
     # step 1 - insert cust_username cust_password
-    args = (new_cred_id, username, password)
-    g.conn.execute('INSERT INTO credentials(cred_id, cust_username, cust_password) VALUES(%d, %s, %s)', args)
+    args = (str(new_cred_id), username, password)
+    g.conn.execute('INSERT INTO credentials(cred_id, cust_username, cust_password) VALUES(%s, %s, %s)', args)
   except:
     context = dict(regMsg = "Invalid username ⚠️, please try again⚠️")
     return render_template("register.html", **context)
@@ -270,17 +280,18 @@ def user_register():
   
   # case 2.2 - failed registration, failed insertion into customers_cred
   try:
-    args = (new_cust_id, new_cred_id, username, budget, specialty, rating)
-    g.conn.execute('INSERT INTO credentials(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%d, %d, %s, %f, %s, %d)', args)
+    args = (str(new_cust_id), str(new_cred_id), username, budget, specialty, rating)
+    g.conn.execute('INSERT INTO customers_cred(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%s, %s, %s, %f, %s, %d)', args)
   except:
     context = dict(regMsg = "Invalid preferences ⚠️, please try again⚠️")
     return render_template("register.html", **context)
 
   # case 1 - successful registration, continue to user_home
+  # set global fields
   global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
   cust_username = username
-  cred_id = new_cred_id
-  cust_id = new_cust_id
+  cred_id = str(new_cred_id)
+  cust_id = str(new_cust_id)
   user_budget = budget
   user_specialty = specialty
   user_rating = rating
