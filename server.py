@@ -332,10 +332,10 @@ def user_home():
   global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
   # case 1 - reroute from login 
   # all globals should have been set by user_login()
-  print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating)))
+  print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating))
   # case 2 - reroute from register
   # all globals should have been set!
-  print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating)))
+  print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating))
   
   return render_template("user_home.html")
 
