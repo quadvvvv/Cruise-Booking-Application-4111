@@ -357,14 +357,45 @@ def add():
 
 @app.route('/booking_records')
 def booking_recrods():
+  #
   global cust_username, cred_id, cust_id
   try:
     records = []
+    booking_records = {}
+    cruise_records = {}
+
     cursor = g.conn.execute('SELECT * FROM booking_records b WHERE b.cust_id = (%s)', cust_id)
-    records = cursor.fetchall()
+    booking_records = cursor.fetchall()
+    for record in booking_records:
+      cruise_id = record['cruise_id']
+      # get cruise_info
+      cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', cruise_id)
+      cruise = cursor.fetchone()
+      booking_records.update(cruise_id = cruise)
+      # get cruise dest_info
+  
+      
+
     
     context=dict(userName = cust_username)
-    context.update(userRecords = records)
+    # booking_records
+    context.update(userRecords = booking_records)
+    # cruise
+    context.update(cruiseRecords = cruise_records)
+
+    # fetch from cruises
+    
+
+    # fetch from sail_to & sail_from
+    dest_sail_to = None
+    dest_sail_from = None
+    
+
+    # get cruise information as well:
+    # cruise name, cruise rating, cruise_start_date, cruise_end_date
+    # cruise_sail from, cruise_sail to.
+
+    # for each cruise, we also print the destination info
   except:
     traceback.print_exc()
     context = dict(userName = cust_username)
