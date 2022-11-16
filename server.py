@@ -299,6 +299,7 @@ def user_register():
     new_cust_id = random.randint(0,1000)
   
   try:
+    ###123
     args = (str(new_cust_id), str(new_cred_id), username, budget, specialty, rating)
     g.conn.execute('INSERT INTO customers_cred(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%s, %s, %s, %s, %s, %s)', args)
   except:
