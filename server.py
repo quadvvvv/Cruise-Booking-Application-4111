@@ -19,6 +19,10 @@ app = Flask(__name__, template_folder=tmpl_dir)
 # tried to use flash but doesn't seem to work well...
 app.secret_key = b'whatever'
 
+#Global Variables
+cred_id = None
+cust_username = None
+
 
 #cred_id = random generated!
 # login
@@ -184,7 +188,7 @@ def another():
 
 @app.route('/login')
 def login():
-  context = dict(prompt_msg = "Please login to your account")
+  context = dict(promptMsg = "Please login to your account")
   return render_template("login.html", **context )
 
 @app.route('/user_login', methods=['POST'])
@@ -192,10 +196,10 @@ def user_login():
   username = request.form['username']
   password = request.form['password']
 
-  cursor = g.conn.execute('SELECT C.cust_password FROM credentials C WHERE C.cust_username= (%s)', username)
+  cursor = g.conn.execute('SELECT C.cred_id, C.cust_password FROM credentials C WHERE C.cust_username= (%s)', username)
   # case 2.1 - unsuccessful login, non-existent user -> return to the login page
   if(cursor.rowcount <= 0):
-    context = dict(prompt_msg = "⚠️Your username doesn't exist in our database, please try again⚠️")
+    context = dict(promptMsg = "Your username doesn't exist in our database⚠️, please try again⚠️")
     return render_template("login.html", **context )
   # tested!
 
@@ -204,12 +208,17 @@ def user_login():
   print(result)
   # case 1 - successful login -> move to user_home
   # tested!
+  
   if(password == result['cust_password']):
-    return redirect("/user_home")
+    global user_name, cred_id
+    user_name = username
+    cred_id = result['cred_id']
+    context = dict(userName = user_name)
+    return redirect("/user_home", **context)
   # case 2.2 - unsuccessful login -> return to the login page
   # tested!
   else:
-    context = dict(prompt_msg = "⚠️Wrong password, please try again⚠️")
+    context = dict(promptMsg = "Wrong password⚠️, please try again⚠️")
     return render_template("login.html", **context )
   
 
