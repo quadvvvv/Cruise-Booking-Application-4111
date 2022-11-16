@@ -245,6 +245,7 @@ def user_login():
       # tested :)
 
       context = dict(userName = cust_username)
+      print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating))
       return render_template("user_home.html", **context)
     # case 2.2 - unsuccessful login -> return to the login page
     # tested!
@@ -321,6 +322,7 @@ def user_register():
   user_rating = rating
 
   context = dict(userName = cust_username)
+  print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating))
   return render_template("user_home.html", **context)
   # case 2 - failed registration, try again
 
