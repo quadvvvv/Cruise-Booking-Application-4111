@@ -16,6 +16,7 @@ from flask import Flask, flash, request, render_template, g, redirect, Response
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
+# tried to use flash but doesn't seem to work well...
 app.secret_key = b'whatever'
 
 
@@ -189,15 +190,22 @@ def login():
 def user_login():
   username = request.form['username']
   password = request.form['password']
-  # # debug
-  # print("debugging:")
-  # print(username)
-  # print(password)
-  # case 1 - successful login -> move to user_home
-  flash('You were successfully logged in')
-  return redirect("/user_home")
-  # case 2 - unsuccessful login -> return to the current login page
 
+  cursor = g.conn.execute('SELECT C.password FROM credentials C WHERE C.username= (%s)', username)
+  # case 2.1 - unsuccessful login, non-existent user -> return to the login page
+  if(cursor.getCount() == 0):
+    return render_template("login.html")
+ 
+  result = cursor.fetchone()
+  #debug
+  print(result)
+  # case 1 - successful login -> move to user_home
+  if(password == result['password']):
+    return redirect("/user_home")
+  # case 2.2 - unsuccessful login -> return to the login page
+  else:
+    return render_template("login.html")
+  
 
 @app.route('/register')
 def register():
