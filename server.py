@@ -191,7 +191,7 @@ def user_login():
   username = request.form['username']
   password = request.form['password']
 
-  cursor = g.conn.execute('SELECT C.password FROM credentials C WHERE C.username= (%s)', username)
+  cursor = g.conn.execute('SELECT C.cust_password FROM credentials C WHERE C.cust_username= (%s)', username)
   # case 2.1 - unsuccessful login, non-existent user -> return to the login page
   if(cursor.getCount() == 0):
     return render_template("login.html")
@@ -200,7 +200,7 @@ def user_login():
   #debug
   print(result)
   # case 1 - successful login -> move to user_home
-  if(password == result['password']):
+  if(password == result['cust_password']):
     return redirect("/user_home")
   # case 2.2 - unsuccessful login -> return to the login page
   else:
