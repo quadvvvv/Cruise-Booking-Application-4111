@@ -193,7 +193,7 @@ def user_login():
 
   cursor = g.conn.execute('SELECT C.cust_password FROM credentials C WHERE C.cust_username= (%s)', username)
   # case 2.1 - unsuccessful login, non-existent user -> return to the login page
-  if(cursor.getCount() == 0):
+  if(cursor.rowcount <= 0):
     return render_template("login.html")
  
   result = cursor.fetchone()
