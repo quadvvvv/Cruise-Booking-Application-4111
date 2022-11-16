@@ -277,8 +277,8 @@ def user_register():
   new_cred_id =  random.randint(0,1000)
 
   results = cursor.fetchall()
-  #debug
-  print(results)
+  # #debug
+  # print(results)
 
   while( new_cred_id in results):
     new_cred_id = random.randint(0,1000)
@@ -288,7 +288,8 @@ def user_register():
     # step 1 - insert cust_username cust_password
     args = (str(new_cred_id), username, password)
     g.conn.execute('INSERT INTO credentials(cred_id, cust_username, cust_password) VALUES(%s, %s, %s)', args)
-  except:
+  except Exception as e:
+    print(e)
     context = dict(regMsg = "Invalid username ⚠️, please try again⚠️")
     return render_template("register.html", **context)
   
@@ -297,8 +298,8 @@ def user_register():
   new_cust_id =  random.randint(0,1000)
 
   results = cursor.fetchall()
-  #debug
-  print(results)
+  # #debug
+  # print(results)
 
   while( new_cust_id in results):
     new_cust_id = random.randint(0,1000)
@@ -306,7 +307,8 @@ def user_register():
   try:
     args = (str(new_cust_id), str(new_cred_id), username, budget, specialty, rating)
     g.conn.execute('INSERT INTO customers_cred(cust_id, cred_id, cust_name, cust_budget, cust_specialty, cust_rating) VALUES(%s, %s, %s, %f, %s, %d)', args)
-  except:
+  except Exception as e:
+    print(e)
     # case 2.2 - failed registration, failed insertion into customers_cred
     context = dict(regMsg = "Invalid preferences ⚠️, please try again⚠️")
     return render_template("register.html", **context)
