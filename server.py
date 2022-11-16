@@ -215,7 +215,7 @@ def user_login():
 
   result = cursor.fetchone()
   # case 1 - successful login -> move to user_home
-  # tested!
+  # tested :)
   
   if(password == result['cust_password']):
     # set global fields
@@ -225,13 +225,14 @@ def user_login():
     # fetch other user data needed
     cursor = g.conn.execute('SELECT * FROM customers_cred C WHERE C.cust_name = (%s)', cust_username)
     result = cursor.fetchone()
-    #debug
-    print(result)
+    # #debug
+    # print(result)
     cred_id = result['cred_id']
     cust_id = result['cust_id']
     user_budget = result['cust_budget']
     user_specialty = result['cust_specialty']
     user_rating = result['cust_rating']
+    # tested :)
 
     context = dict(userName = cust_username)
     return render_template("user_home.html", **context)
