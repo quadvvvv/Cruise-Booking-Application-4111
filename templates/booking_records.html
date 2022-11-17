@@ -28,6 +28,7 @@
         </tr>
       </thead>
       <tbody>
+        {%if userRecords != None%}
         {% for record in userRecords %}
         <tr>
           <td>{{ record['book_id'] }}</td>
@@ -36,6 +37,7 @@
           <td>{{ record['cruise_id']}}</td>
         </tr>
         {% endfor %}
+        {% endif %}
       </tbody>
     </table>
 
@@ -55,6 +57,7 @@
         </tr>
       </thead>
       <tbody>
+        {% if cruiseRecords != None %}
         {% for cruise in cruiseRecords %}
         <tr>
           <td>{{ cruise['cruise_id']}} </td>
@@ -65,6 +68,7 @@
           <td>{{ cruise['cruise_end_date']}}</td>
         </tr>
         {% endfor %}
+        {% endif %}
       </tbody>
     </table>
 

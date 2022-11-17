@@ -29,12 +29,14 @@
             </tr>
           </thead>
           <tbody>
+            {% if compInfo != None %}
             <tr>
               <td>{{ compInfo['comp_id']}} </td>
               <td>{{ compInfo['comp_name']}}</td>
               <td>{{ compInfo['comp_loc'] }}</td>
               <td>{{ compInfo['comp_rating'] }}</td>
             </tr>
+            {% endif %}
       
           </tbody>
         </table>

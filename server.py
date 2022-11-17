@@ -339,9 +339,8 @@ def find_company():
 
   # case 1 - DNE
   if(cursor.rowcount <= 0):
-      result = {'comp_id': None, 'comp_name': None, 'comp_loc': None, 'comp_rating': None}
       context.update(promptMsg = "Your Company doesn't exist in our database⚠️, please try again⚠️")
-      context.update(compInfo = result)
+      context.update(compInfo = None)
       return render_template("company_detail.html", **context )
 
   # both cases teseted!
@@ -397,8 +396,8 @@ def booking_recrods():
     cursor = g.conn.execute('SELECT * FROM booking_records b WHERE b.cust_id = (%s)', cust_id)
     #case 1 - DNE
     if(cursor.rowcount <= 0):
-      context.update(userRecords = booking_records)
-      context.update(cruiseRecords = cruise_records)
+      context.update(userRecords = None)
+      context.update(cruiseRecords = None)
       return render_template("booking_records.html", **context)
 
     #case 2 - normal
