@@ -337,13 +337,16 @@ def find_company():
   # fetch company
   cursor = g.conn.execute('SELECT * FROM companies C WHERE C.comp_id= (%s)', company_id)
 
-  # DNE
+  # case 1 - DNE
   if(cursor.rowcount <= 0):
       result = {'comp_id': None, 'comp_name': None, 'comp_loc': None, 'comp_rating': None}
       context.update(promptMsg = "Your Company doesn't exist in our database⚠️, please try again⚠️")
       context.update(compInfo = result)
       return render_template("company_detail.html", **context )
 
+  # both cases teseted!
+
+  # case 2 - normal
   result = cursor.fetchone()
   context.update(compInfo = result)
   context.update(promptMsg = "Woohoo! We found your company 🍀")
@@ -357,7 +360,21 @@ def find_cruise():
   context = dict(cruiseId = cruise_id)
   context.update(userName = cust_username)
 
-  return render_template("company_detail.html", **context)
+  # fetch cruise
+  cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', cruise_id)
+  
+  # case 1 - DNE
+  if(cursor.rowcount <= 0):
+    context.update(promptMsg = "Your cruise doesn't exist in our database⚠️, please try again⚠️")
+    context.update(destRecords = None)
+    return render_template("cruise_detail.html", **context)
+
+  # case 2 - normal
+
+  context.update(userName = cust_username)
+  context.update(promptMsg = "Woohoo! We found your cruise 🍀")
+
+  return render_template("cruise_detail.html", **context)
 
 
 @app.route('/home')
@@ -375,8 +392,16 @@ def booking_recrods():
   try:
     booking_records = {}
     cruise_records = []
+    context=dict(userName = cust_username)
 
     cursor = g.conn.execute('SELECT * FROM booking_records b WHERE b.cust_id = (%s)', cust_id)
+    #case 1 - DNE
+    if(cursor.rowcount <= 0):
+      context.update(userRecords = booking_records)
+      context.update(cruiseRecords = cruise_records)
+      return render_template("booking_records.html", **context)
+
+    #case 2 - normal
     booking_records = cursor.fetchall()
     for record in booking_records:
       cruise_id = record['cruise_id']
@@ -385,7 +410,6 @@ def booking_recrods():
       cruise = cursor.fetchone()
       cruise_records.append(cruise)
     
-    context=dict(userName = cust_username)
     # booking_records
     context.update(userRecords = booking_records)
     # cruise

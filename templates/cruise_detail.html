@@ -9,40 +9,41 @@
       text-align: center;
     }
     tr:nth-child(even) {
-  background-color: #B6D4E7;
+  background-color: #f5c9c9;
     }
   </style>
   <body>
     <h1>🌊🌊🚢🌊🌊Hello, {{userName}} 🌊🌊🚢🌊🌊</h1>
     <br>
-    <p> 🍃Here's the detailed information about cruise {{cruiseId}} 📖:
+    <p> 🍃{{promptMsg}}{{cruiseId}} 📖:
     </p>
     <br>
-    <table id="cruise_data" style="margin-left: auto;
+    <table id="dest_data" style="margin-left: auto;
       margin-right: auto;">
-      <thead style="background-color: #d9f5c9;">
+      <thead style="background-color: #f5c9c9;">
         <tr>
-              <th>Cruise Id </th>
-              <th>Cruise Name</th>
-              <th>Cruise Rating</th>
-              <th>Cruise Cost</th>
-              <th>Cruise Start Date</th>
-              <th>Cruise End Date</th>
+              <th>Name of Your Destination </th>
+              <th>Avg. Temperature</th>
+              <th>Climate</th>
+              <th>Continent</th>
+              <th>Specialty</th>
+              <th>Is the Destination Domestic?</th>
             </tr>
           </thead>
           <tbody>
-            {% for cruise in cruiseRecords %}
+            {% for dest_record in destRecords %}
             <tr>
-              <td>{{ cruise['cruise_id']}} </td>
-              <td>{{ cruise['cruise_name']}}</td>
-              <td>{{ cruise['cruise_rating'] }}</td>
-              <td>{{ cruise['cruise_cost'] }}</td>
-              <td>{{ cruise['cruise_start_date']}}</td>
-              <td>{{ cruise['cruise_end_date']}}</td>
+              <td>{{ dest_record['dest_name']}}</td>
+              <td>{{ dest_record['dest_temp']}} </td>
+              <td>{{ dest_record['dest_climate']}}</td>
+              <td>{{ dest_record['dest_continent'] }}</td>
+              <td>{{ dest_record['dest_specialty'] }}</td>
+              <td>{{ dest_record['dest_is_domestic']}}</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
+
         <p>🌌<a href="booking_records">Back to your booking results</a>.</p>
         <p>🌸<a href="user_home">Back to your options</a>.</p>
         <p>🍃<a href="home">Exit login & Return to home</a>.</p>
