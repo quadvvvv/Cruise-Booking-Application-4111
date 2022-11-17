@@ -437,6 +437,26 @@ def booking_recrods():
 
   return render_template("booking_records.html", **context)
 
+@app.route('/filtered_cruise')
+def filtered_cruise():
+  global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
+  context = dict(userName = cust_username)
+  try:
+    cursor = g.conn.execute("SELECT * FROM cruises c, destinations d WHERE c.cruise_cost <= '{}' AND c.cruise_rating >= '{}' AND d.dest_specialty = '{}'".format(user_budget, user_rating, user_specialty))
+    # case 1 = DNE
+    if (cursor.rowcount <= 0):
+      context.update(promptMsg = "Oops, we didn't find a matching cruise for you :C")
+      return render_template("filtered_cruise.html", **context)
+    # case 2 = normal
+    valid_cruises = cursor.fetchall()
+    context.update(valid_cruises = valid_cruises)
+    context.update(promptMsg = "Here are cruises that match your preferences 😏")
+    return render_template("filtered_cruise.html", **context)
+  except:
+    traceback.print_exc()
+    context = dict(userName = cust_username)
+    return render_template("user_home.html", **context)
+
 @app.route('/random_cruise')
 def random_cruise():
   global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
