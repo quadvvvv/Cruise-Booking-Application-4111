@@ -362,7 +362,7 @@ def booking_recrods():
   try:
     records = []
     booking_records = {}
-    cruise_records = {}
+    cruise_records = []
 
     cursor = g.conn.execute('SELECT * FROM booking_records b WHERE b.cust_id = (%s)', cust_id)
     booking_records = cursor.fetchall()
