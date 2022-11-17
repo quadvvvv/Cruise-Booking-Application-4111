@@ -268,7 +268,9 @@ def user_register():
   cursor = g.conn.execute('SELECT cred_id FROM credentials')
   new_cred_id =  random.randint(0,1000)
 
+  #flatten and convert to int()
   results = cursor.fetchall()
+  results = [int(item) for items in results for item in items]
 
   while( new_cred_id in results):
     new_cred_id = random.randint(0,1000)
@@ -287,7 +289,9 @@ def user_register():
   cursor = g.conn.execute('SELECT cust_id FROM customers_cred')
   new_cust_id =  random.randint(0,1000)
 
+  #flatten and convert to int()
   results = cursor.fetchall()
+  results = [int(item) for items in results for item in items]
 
   while( new_cust_id in results):
     new_cust_id = random.randint(0,1000)
@@ -495,10 +499,9 @@ def book_cruise():
     cursor = g.conn.execute('SELECT book_id FROM booking_records')
     new_book_id =  random.randint(0,10000)
 
-
+    #flatten and convert to int()
     results = cursor.fetchall()
     results = [int(item) for items in results for item in items]
-    print(results)
 
     while( new_book_id in results):
       new_book_id = random.randint(0,10000000)
@@ -511,14 +514,14 @@ def book_cruise():
     booking_record = cursor.fetchone()
 
     context.update(bookRecord = booking_record)
-    context.update(promtpMsg = "🎉Congratulations on your successful booking!🎉")
+    context.update(promptMsg = "🎉Congratulations on your successful booking!🎉")
     return render_template("booking_results.html", **context)
   
   except:
     # case 2 - failed
     traceback.print_exc()
     context.update(bookRecord = None)
-    context.update(promtpMsg = "⚠️Oops, something went wrong⚠️")
+    context.update(promptMsg = "⚠️Oops, something went wrong⚠️")
     return render_template("booking_results.html", **context)
 
 
