@@ -408,6 +408,7 @@ def booking_recrods():
       cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', cruise_id)
       cruise = cursor.fetchone()
       cruise_records.append(cruise)
+    #both tested!
     
     # booking_records
     context.update(userRecords = booking_records)
