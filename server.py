@@ -439,22 +439,47 @@ def booking_recrods():
 def random_cruise():
   global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
   context = dict(userName = cust_username)
-  cruise_crecord = []
-  dest_records = {}
+  tpl = None
+  dest_records = []
 
-  # 
+  try:
+    # satisfying cruise_id, randomly selected by postgresql
+    cursor = g.conn.execute('SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest FROM sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) ORDER BY random() LIMIT 1', user_specialty, user_specialty)
+    
+    if(cursor.rowcount() > 0):
+      tpl = cursor.fetchone()
 
-  # case 1 - DNE
-  if (cursor.rowcount <= 0):
-    context.update(promptMsg = "Oops, we didn't find a matching cruise for you :C")
-    context.update(cruiseRecord = None)
-    context.update(destRecords = None)
+    # case 1 - DNE
+    if (tpl == None):
+      context.update(promptMsg = "Oops, we didn't find a matching cruise for you :C")
+      context.update(cruiseRecord = None)
+      context.update(destRecords = None)
+      return render_template("random.cruise.html", **context)
+
+    # case 2 - normal
+
+    # step 1 - fetch cruise
+    cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', tpl['cruise_id'])
+    cruise_record = cursor.fetchone()
+    context.update(cruiseRecord = cruise_record) 
+
+    # step 2 - fetch dest_records
+    # reused from find_cruise()
+    cursor = g.conn.execute('SELECT * FROM destinations d WHERE d.dest_id = (%s)',tpl['from_dest'])
+    dest_record = cursor.fetchone()
+    dest_records.append(dest_record)
+    if(tpl['from_dest'] != tpl['to_dest']):
+      cursor = g.conn.execute('SELECT * FROM destinations d WHERE d.dest_id = (%s)',tpl['to_dest'])
+      dest_record = cursor.fetchone()
+      dest_records.append(dest_record)
+
+    context.update(destRecords = dest_records)
+    context.update(promptMsg = "Woohoo! We found your company 🍀")
     return render_template("random.cruise.html", **context)
-
-  # case 2 - normal
-
-  context.update(promptMsg = "Woohoo! We found your company 🍀")
-  return render_template("random.cruise.html", **context)
+  except:
+    traceback.print_exc()
+    context.update(promptMsg = "Something went wrong! Please go back to your options :C")
+    return render_template("random.cruise.html", **context)
 
 
 
