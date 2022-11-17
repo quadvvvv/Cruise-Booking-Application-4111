@@ -437,25 +437,25 @@ def booking_recrods():
 
   return render_template("booking_records.html", **context)
 
-@app.route('/filtered_cruise')
-def filtered_cruise():
-  global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
-  context = dict(userName = cust_username)
-  try:
-    cursor = g.conn.execute("SELECT * FROM cruises c, destinations d WHERE c.cruise_cost <= '{}' AND c.cruise_rating >= '{}' AND d.dest_specialty = '{}'".format(user_budget, user_rating, user_specialty))
-    # case 1 = DNE
-    if (cursor.rowcount <= 0):
-      context.update(promptMsg = "Oops, we didn't find a matching cruise for you :C")
-      return render_template("filtered_cruise.html", **context)
-    # case 2 = normal
-    valid_cruises = cursor.fetchall()
-    context.update(valid_cruises = valid_cruises)
-    context.update(promptMsg = "Here are cruises that match your preferences 😏")
-    return render_template("filtered_cruise.html", **context)
-  except:
-    traceback.print_exc()
-    context = dict(userName = cust_username)
-    return render_template("user_home.html", **context)
+# @app.route('/filtered_cruise')
+# def filtered_cruise():
+#   global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
+#   context = dict(userName = cust_username)
+#   try:
+#     cursor = g.conn.execute("SELECT * FROM cruises c, destinations d WHERE c.cruise_cost <= '{}' AND c.cruise_rating >= '{}' AND d.dest_specialty = '{}'".format(user_budget, user_rating, user_specialty))
+#     # case 1 = DNE
+#     if (cursor.rowcount <= 0):
+#       context.update(promptMsg = "Oops, we didn't find a matching cruise for you :C")
+#       return render_template("filtered_cruise.html", **context)
+#     # case 2 = normal
+#     valid_cruises = cursor.fetchall()
+#     context.update(valid_cruises = valid_cruises)
+#     context.update(promptMsg = "Here are cruises that match your preferences 😏")
+#     return render_template("filtered_cruise.html", **context)
+#   except:
+#     traceback.print_exc()
+#     context = dict(userName = cust_username)
+#     return render_template("user_home.html", **context)
 
 @app.route('/random_cruise')
 def random_cruise():
@@ -544,6 +544,14 @@ def book_cruise():
     context.update(promptMsg = "⚠️ Oops, something went wrong ⚠️ You may have booked for this cruise already, or some unkown error occurs... ")
     return render_template("booking_results.html", **context)
 
+@app.route('/direct_book', methods=['POST'])
+def direct_book():
+  context = None
+
+  # direct_cruise.html should contain all the results, let user choose which to book.
+  # direct_cruise.html -> action = book_cruise!
+  
+  return render_template("direct_cruise.html", **context)
 
 
 if __name__ == "__main__":
@@ -572,4 +580,5 @@ if __name__ == "__main__":
     app.run(host=HOST, port=PORT, debug=debug, threaded=threaded)
 
   run()
+
 
