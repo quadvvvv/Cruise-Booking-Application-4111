@@ -569,7 +569,6 @@ def directly_book():
 
   try:
     cursor = g.conn.execute('SELECT * FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND c.cruise_cost <= (%s) AND c.cruise_rating >= (%s) AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) AND (d1.dest_climate = (%s) OR d2.dest_climate = (%s)) AND (d1.dest_is_domestic = (%s) AND d2.dest_is_domestic = (%s)) ',(cust_budget_loc, cust_rating_loc,cust_specialty_loc, cust_specialty_loc, cust_climate_loc, cust_climate_loc, is_domestic_loc, is_domestic_loc))
-    cursor = g.conn.execute()
     for result in cursor:
       print(result)
   except:
