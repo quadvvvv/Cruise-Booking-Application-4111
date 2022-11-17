@@ -521,7 +521,7 @@ def book_cruise():
     # case 2 - failed
     traceback.print_exc()
     context.update(bookRecord = None)
-    context.update(promptMsg = "⚠️Oops, something went wrong⚠️")
+    context.update(promptMsg = "⚠️Oops, something went wrong⚠️ You may have booked for this cruise already, or some unkown error occurs...")
     return render_template("booking_results.html", **context)
 
 
