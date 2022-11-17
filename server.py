@@ -475,11 +475,11 @@ def random_cruise():
 
     context.update(destRecords = dest_records)
     context.update(promptMsg = "Woohoo! We found your company 🍀")
-    return render_template("random.cruise.html", **context)
+    return render_template("random_cruise.html", **context)
   except:
     traceback.print_exc()
     context.update(promptMsg = "Something went wrong! Please go back to your options :C")
-    return render_template("random.cruise.html", **context)
+    return render_template("random_cruise.html", **context)
 
 
 
