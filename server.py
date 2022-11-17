@@ -14,6 +14,7 @@ from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, flash, request, render_template, g, redirect, Response
 
+### New Imports 
 import random
 import traceback
 
@@ -29,24 +30,6 @@ cust_id = None
 user_budget = None
 user_specialty = None
 user_rating = None
-
-#cred_id = random generated!
-# login
-# case 1 - valid, continue to the homepage for user
-# case 2 - invalid, please login again
-
-# register
-# step 1 - register password & fill in user information
-# step 2 - redirect to homepage for user
-
-# homepage for user
-# three options:
-# 1. Feeling Lucky! -> Random Suggestion based on the user's info
-# -> New HTML -> with book option -> inject into booking records
-# 2. Direct Search by Cruise ID
-# -> New HTML -> With book option -> inject into booking records 
-# 3. Vague Search for new cruise -> Filtering 
-# -> New HTML -> With book option -> inject into booking records
 
 #
 # The following is a dummy URI that does not connect to a valid database. You will need to modify it to connect to your Part 2 database in order to use the data.
@@ -190,7 +173,15 @@ def index():
 def another():
   return render_template("another.html")
 
-#vanila temp
+# Example of adding new data to the database
+@app.route('/add', methods=['POST'])
+def add():
+  name = request.form['name']
+  g.conn.execute('INSERT INTO test(name) VALUES (%s)', name)
+  return redirect('/')
+
+### Project Codes ###
+
 @app.route('/')
 def home():
   # reset global fields everytime return to home
@@ -324,22 +315,29 @@ def user_register():
   context = dict(userName = cust_username)
   print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating))
   return render_template("user_home.html", **context)
-  # case 2 - failed registration, try again
-
-  context = dict(regMsg = "Invalid input ⚠️, please register with correct values again⚠️")
-  return render_template("register.html", **context)
-
+ 
 @app.route('/user_home')
 def user_home():
+  # only way to use this direct url is after login/register
+  # either way, globals must have been set
   global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
-  # case 1 - reroute from login 
-  # all globals should have been set by user_login()
-  print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating))
-  # case 2 - reroute from register
-  # all globals should have been set!
-  print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating))
-  
-  return render_template("user_home.html")
+  context=dict(userName = cust_username)
+
+  return render_template("user_home.html", **context)
+
+
+@app.route('/find_company', METHODS =['POST'])
+def find_company():
+  company_id = request.form['compId']
+  context = dict(compId = company_id)
+  return render_template("company_detail.html", **context)
+
+@app.route('/find_cruise', METHODS =['POST'])
+def find_cruise():
+  cruise_id = request.form['cruiseId']
+  context = dict(cruiseId = cruise_id)
+  return render_template("company_detail.html", **context)
+
 
 @app.route('/home')
 def home_2():
@@ -348,19 +346,12 @@ def home_2():
   return render_template("home.html", **context)
 
 
-# Example of adding new data to the database
-@app.route('/add', methods=['POST'])
-def add():
-  name = request.form['name']
-  g.conn.execute('INSERT INTO test(name) VALUES (%s)', name)
-  return redirect('/')
 
 @app.route('/booking_records')
 def booking_recrods():
-  #
+  # everytime get to booking_records, use globals to fetch info needed.
   global cust_username, cred_id, cust_id
   try:
-    records = []
     booking_records = {}
     cruise_records = []
 
@@ -372,28 +363,12 @@ def booking_recrods():
       cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', cruise_id)
       cruise = cursor.fetchone()
       cruise_records.append(cruise)
-      # get cruise dest_info
-
     
     context=dict(userName = cust_username)
     # booking_records
     context.update(userRecords = booking_records)
     # cruise
     context.update(cruiseRecords = cruise_records)
-
-    # fetch from cruises
-    
-
-    # fetch from sail_to & sail_from
-    dest_sail_to = None
-    dest_sail_from = None
-    
-
-    # get cruise information as well:
-    # cruise name, cruise rating, cruise_start_date, cruise_end_date
-    # cruise_sail from, cruise_sail to.
-
-    # for each cruise, we also print the destination info
   except:
     traceback.print_exc()
     context = dict(userName = cust_username)
@@ -401,10 +376,6 @@ def booking_recrods():
 
   return render_template("booking_records.html", **context)
 
-# @app.route('/login')
-# def login():
-#     abort(401)
-#     this_is_never_executed()
 
 
 if __name__ == "__main__":
