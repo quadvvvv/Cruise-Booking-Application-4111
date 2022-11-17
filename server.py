@@ -371,7 +371,7 @@ def booking_recrods():
       # get cruise_info
       cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', cruise_id)
       cruise = cursor.fetchone()
-      cruise_records.update(cruise_id = cruise)
+      cruise_records.append(cruise)
       # get cruise dest_info
 
     

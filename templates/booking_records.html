@@ -55,14 +55,14 @@
             </tr>
           </thead>
           <tbody>
-            {% for cruise_id, cruise_info in cruiseRecords.items() %}
+            {% for cruise in cruiseRecords %}
             <tr>
-              <td> {{cruise_id}} </td>
-              <td>{{ cruise_info['cruise_name'] }}</td>
-              <td>{{ cruise_info['cruise_rating'] }}</td>
-              <td>{{ cruise_info['cruise_cost'] }}</td>
-              <td>{{ cruise_info['cruise_start_date']}}</td>
-              <td>{{ cruise_info['cruise_end_date']}}</td>
+              <td>{{ cruise['cruise_id']}} </td>
+              <td>{{ cruise['cruise_name']}}</td>
+              <td>{{ cruise['cruise_rating'] }}</td>
+              <td>{{ cruise['cruise_cost'] }}</td>
+              <td>{{ cruise['cruise_start_date']}}</td>
+              <td>{{ cruise['cruise_end_date']}}</td>
             </tr>
             {% endfor %}
           </tbody>
