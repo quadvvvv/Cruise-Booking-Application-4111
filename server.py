@@ -557,69 +557,19 @@ def directly_book():
   global cust_username
   context = None
   context = dict(userName = cust_username)
-  # strategy here:
-  # composite each filter with itself and the actual condition
-  # WHERE (filter_1 IS NULL OR filter_1 > some_val)
-
-  # if fields not filld, it will be empty string: "";
+  
+  # DESIGN CHANGE: all fields must be filled now;
   cust_budget_loc = request.form['cust_budget']
   cust_rating_loc = request.form['cust_rating']
   cust_specialty_loc = request.form['cust_specialty']
   cust_climate_loc = request.form['cust_climate']
   is_domestic_loc = request.form['is_domestic']
-  
-  # print("test: " + cust_budget_loc + " ;")
-  # print("test: " + cust_rating_loc + " ;")
-  # print("test: " + cust_specialty_loc + " ;")
-  # print("test: " + cust_climate_loc + " ;")
-  # print("test: " + is_domestic_loc + " ;")
 
-  
-  
+  #SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest
 
   try:
-    #TODO: NEED SQL QUERY
-    
-    query_select = 'SELECT * '
-    # query_select = 'SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest '
-    query_from = 'FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 '
-    query_whr = 'WHERE c.cruise_id = s1.cruise_id AND  s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id '
-   
-    # orignial solution
-    # # combo of con_1 & con_2 tested.
-    # if cust_budget_loc == "":
-    #   cust_budget_loc = "NULL"
-    # if cust_rating_loc == "":
-    #   cust_rating_loc = "NULL" 
-    # query_con_1 = 'AND ({} IS NULL OR c.cruise_cost <= {})'.format(cust_budget_loc, cust_budget_loc ) # tested!
-    # query_con_2 = 'AND ({} IS NULL OR c.cruise_rating >= {})'.format(cust_rating_loc, cust_rating_loc)  # tested!
-    
-    # # new solution: use if statement to modify the strings
-    # query_con_1 = ""
-    # query_con_2 = ""
-    # query_con_3 = ""
-    # query_con_4 = ""
-    # query_con_5 = ""
-
-    # if cust_budget_loc != "":
-    #   query_con_1 = "AND c.cruise_cost <= {} ".format(cust_budget_loc)
-
-    # if cust_rating_loc != "":
-    #   query_con_2 = "AND c.cruise_rating >= {} ".format(cust_rating_loc)
-
-    # if cust_specialty_loc != "":
-    #   query_con_3 = "AND (d1.dest_specialty = \"{}\" OR d2.dest_specialty = \"{}\" ) ".format(cust_specialty_loc, cust_specialty_loc)
-
-    # if cust_climate_loc != "":
-    #   query_con_4 = "AND (d1.dest_climate = \"{}\" OR d2.dest_climate = \"{}\" ) ".format(cust_climate_loc, cust_climate_loc)
-    
-    # if is_domestic_loc != "":
-    #   query_con_5 = "AND (d1.dest_is_domestic = \"{}\" AND d2.dest_is_domestic = \"{}\" ) ".format(is_domestic_loc, is_domestic_loc)
-  
-    # sql_query = query_select + query_from + query_whr + query_con_1 + query_con_2 + query_con_3 + query_con_4 + query_con_5
-    # print(sql_query)
-  
-    cursor = g.conn.execute(sql_query)
+    cursor = g.conn.execute('SELECT * FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND c.cruise_cost <= (%s) AND c.cruise_rating >= (%s) AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) AND (d1.dest_climate = (%s) OR d2.dest_climate = (%s)) AND (d1.dest_is_domestic = (%s) AND d2.dest_is_domestic = (%s)) ',(cust_budget_loc, cust_rating_loc,cust_specialty_loc, cust_specialty_loc, cust_climate_loc, cust_climate_loc, is_domestic_loc, is_domestic_loc))
+    cursor = g.conn.execute()
     for result in cursor:
       print(result)
   except:

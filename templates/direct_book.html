@@ -19,29 +19,27 @@
         <form method="POST" action="/directly_book">
             <label for="cust_budget">How much is your budget?</label>
             <input type="number" step="0.01" min=0 name="cust_budget"
-                id="cust_budget">
+                id="cust_budget" required>
             <br>
 
             <label for="cust_rating">Over what rating would you prefer?
                 (Between 0 and 5)</label>
             <input type="number" step="1" name="cust_rating"
-                id="cust_rating">
+                id="cust_rating" required >
             <br>
 
             <label for="cust_specialty">Choose a specialty:</label>
             <select name="cust_specialty" id="cust_specialty">
-                <option value="">--Please choose a specialty--</option>
+                <option value="landscape">landscape</option>
                 <option value="nightlife">nightlife</option>
                 <option value="family-friendly">family-friendly</option>
                 <option value="chilled">chilled</option>
-                <option value="landscape">landscape</option>
                 <option value="energetic">energetic</option>
             </select>
             <br>
 
             <label for="cust_climate">Choose a climate:</label>
             <select name="cust_climate" id="cust_climate">
-                <option value="">--Please choose a climate--</option>
                 <option value="Temperate">Temperate</option>
                 <option value="Tropical">Tropical</option>
                 <option value="Continental">Continental</option>
@@ -52,9 +50,8 @@
 
             <label for="cust_climate">Do you want to travel overseas?</label>
             <select name="is_domestic" id="is_domestic">
-                <option value="">--Please choose a value--</option>
-                <option value="TRUE">no</option>
                 <option value="FALSE">yes</option>
+                <option value="TRUE">no</option>
             </select>
             <br>
 
