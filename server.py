@@ -369,7 +369,7 @@ def booking_recrods():
     for record in booking_records:
       cruise_id = record['cruise_id']
       # get cruise_info
-      cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', cruise_id)
+      cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s) ORDERBY c.cruise_start_date', cruise_id)
       cruise = cursor.fetchone()
       cruise_records.append(cruise)
       # get cruise dest_info
