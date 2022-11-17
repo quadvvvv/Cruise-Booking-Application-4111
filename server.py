@@ -183,7 +183,7 @@ def add():
 ### Project Codes ###
 
 @app.route('/')
-def home():
+def home_2():
   # reset global fields everytime return to home
   global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
   cust_username = None
@@ -391,12 +391,10 @@ def find_cruise():
 
 
 @app.route('/home')
-def home_2():
+def home():
   home_msg = 'Welcome Back to CruiseWithMe'
   context=dict(homeMsg = home_msg) 
   return render_template("home.html", **context)
-
-
 
 @app.route('/booking_records')
 def booking_recrods():
@@ -482,7 +480,9 @@ def random_cruise():
     context.update(promptMsg = "Something went wrong! Please go back to your options :C")
     return render_template("random_cruise.html", **context)
 
-
+@app.route('/book_cruise', methods=['POST'])
+def book_cruise():
+  return null
 
 if __name__ == "__main__":
   import click

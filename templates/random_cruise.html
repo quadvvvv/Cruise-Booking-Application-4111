@@ -1,5 +1,5 @@
 <html>
-  <style>
+    <style>
     body{ 
       text-align: center;
       font-size: 15pt;
@@ -12,70 +12,78 @@
   background-color: #f5c9c9;
     }
   </style>
-  <body>
-    <h1>🌊🌊🚢🌊🌊Hello, {{userName}} 🌊🌊🚢🌊🌊</h1>
-    <br>
-    <p> 🍃{{promptMsg}} 📖:
-    </p>
-    <br>
-  <table id="cruise_data" style="margin-left: auto;
-      margin-right: auto;">
-      <thead style="background-color: #d9f5c9;">
-        <tr>
-          <th>Cruise Id </th>
-          <th>Cruise Name</th>
-          <th>Cruise Rating</th>
-          <th>Cruise Cost</th>
-          <th>Cruise Start Date</th>
-          <th>Cruise End Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% if cruiseRecord != None %}
-        <tr>
-          <td>{{ cruiseRecord['cruise_id']}} </td>
-          <td>{{ cruiseRecord['cruise_name']}}</td>
-          <td>{{ cruiseRecord['cruise_rating'] }}</td>
-          <td>{{ cruiseRecord['cruise_cost'] }}</td>
-          <td>{{ cruiseRecord['cruise_start_date']}}</td>
-          <td>{{ cruiseRecord['cruise_end_date']}}</td>
-        </tr>
-        {% endif %}
-      </tbody>
-    </table>
-    <br>
-    <table id="dest_data" style="margin-left: auto;
-      margin-right: auto;">
-      <thead style="background-color: #f5c9c9;">
-        <tr>
-              <th>Name of Your Destination </th>
-              <th>Avg. Temperature</th>
-              <th>Climate</th>
-              <th>Continent</th>
-              <th>Specialty</th>
-              <th>Is the Destination Domestic?</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if destRecords != None %}
-            {% for dest_record in destRecords %}
-            <tr>
-              <td>{{ dest_record['dest_name']}}</td>
-              <td>{{ dest_record['dest_temp']}} </td>
-              <td>{{ dest_record['dest_climate']}}</td>
-              <td>{{ dest_record['dest_continent'] }}</td>
-              <td>{{ dest_record['dest_specialty'] }}</td>
-              <td>{{ dest_record['dest_is_domestic']}}</td>
-            </tr>
-            {% endfor %}
-            {% endif %}
-          </tbody>
+    <body>
+        <h1>🌊🌊🚢🌊🌊Hello, {{userName}} 🌊🌊🚢🌊🌊</h1>
+        <br>
+        <p> 🍃{{promptMsg}} 📖:
+        </p>
+        <br>
+        <table id="cruise_data" style="margin-left: auto;
+            margin-right: auto;">
+            <thead style="background-color: #d9f5c9;">
+                <tr>
+                    <th>Cruise Id </th>
+                    <th>Cruise Name</th>
+                    <th>Cruise Rating</th>
+                    <th>Cruise Cost</th>
+                    <th>Cruise Start Date</th>
+                    <th>Cruise End Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if cruiseRecord != None %}
+                <tr>
+                    <td>{{ cruiseRecord['cruise_id']}} </td>
+                    <td>{{ cruiseRecord['cruise_name']}}</td>
+                    <td>{{ cruiseRecord['cruise_rating'] }}</td>
+                    <td>{{ cruiseRecord['cruise_cost'] }}</td>
+                    <td>{{ cruiseRecord['cruise_start_date']}}</td>
+                    <td>{{ cruiseRecord['cruise_end_date']}}</td>
+                </tr>
+                {% endif %}
+            </tbody>
         </table>
+        <br>
+        <table id="dest_data" style="margin-left: auto;
+            margin-right: auto;">
+            <thead style="background-color: #f5c9c9;">
+                <tr>
+                    <th>Name of Your Destination </th>
+                    <th>Avg. Temperature</th>
+                    <th>Climate</th>
+                    <th>Continent</th>
+                    <th>Specialty</th>
+                    <th>Is the Destination Domestic?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if destRecords != None %}
+                {% for dest_record in destRecords %}
+                <tr>
+                    <td>{{ dest_record['dest_name']}}</td>
+                    <td>{{ dest_record['dest_temp']}} </td>
+                    <td>{{ dest_record['dest_climate']}}</td>
+                    <td>{{ dest_record['dest_continent'] }}</td>
+                    <td>{{ dest_record['dest_specialty'] }}</td>
+                    <td>{{ dest_record['dest_is_domestic']}}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+        <br>
+        <p> ❤️If you like the recommended cruise, please type in the (Cruise Id)
+            below to book the cruise:</p>
+        <form method="POST" action="/book_cruise">
+            <input name="cruiseId" id="cruiseId" placeholder="cruise id"
+                required>
+            <input type="submit" value="Book">
+        </form>
+        <p> 🗺️Otherwise, you can always choose other options below:</p>
 
         <p>🎲🎲<a href="random_cruise">Try another one</a>🎲🎲</p>
         <p>🌸<a href="user_home">Back to your options</a>.</p>
         <p>🍃<a href="home">Exit login & Return to home</a>.</p>
         <br>
-      </body>
-    </html>
-
+    </body>
+</html>
