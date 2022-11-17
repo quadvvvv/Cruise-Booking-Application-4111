@@ -31,6 +31,7 @@
             </tr>
           </thead>
           <tbody>
+            {% if destRecords != None %}
             {% for dest_record in destRecords %}
             <tr>
               <td>{{ dest_record['dest_name']}}</td>
@@ -41,6 +42,7 @@
               <td>{{ dest_record['dest_is_domestic']}}</td>
             </tr>
             {% endfor %}
+            {% endif %}
           </tbody>
         </table>
 
