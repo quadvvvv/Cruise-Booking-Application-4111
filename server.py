@@ -339,7 +339,9 @@ def find_company():
 
   # DNE
   if(cursor.rowcount <= 0):
+      result = {'comp_id': None, 'comp_name': None, 'comp_loc': None, 'comp_rating': None}
       context.update(promptMsg = "Your Company doesn't exist in our database⚠️, please try again⚠️")
+      context.update(compInfo = result)
       return render_template("company_detail.html", **context )
 
   result = cursor.fetchone()
