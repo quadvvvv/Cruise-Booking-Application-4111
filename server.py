@@ -495,11 +495,13 @@ def book_cruise():
     cursor = g.conn.execute('SELECT book_id FROM booking_records')
     new_book_id =  random.randint(0,10000)
 
+
     results = cursor.fetchall()
+    results = [item for items in results for item in items]
     print(results)
 
     while( new_book_id in results):
-      new_book_id = random.randint(0,10000)
+      new_book_id = random.randint(0,10000000)
 
     args = (str(new_book_id), comp_id, cust_id, cruise_id)
     g.conn.execute('INSERT INTO booking_records(book_id, comp_id, cust_id, cruise_id) VALUES(%s, %s, %s, %s)', args)
