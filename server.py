@@ -457,7 +457,7 @@ def random_cruise():
       return render_template("random_cruise.html", **context)
 
     # case 2 - normal
-
+    #
     # step 1 - fetch cruise
     cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', tpl['cruise_id'])
     cruise_record = cursor.fetchone()
