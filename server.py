@@ -546,19 +546,28 @@ def book_cruise():
 
 @app.route('/direct_book')
 def direct_book():
+  # this is just a vanilla template just like any others;
+  global cust_username
   context = None
-
-  # direct_cruise.html should contain all the results, let user choose which to book.
-  # direct_cruise.html -> action = book_cruise!
-  
+  context = dict(userName = cust_username)
   return render_template("direct_cruise.html", **context)
 
 @app.route('/directly_book', methods=['POST'])
 def directly_book():
+  global cust_username
   context = None
-  return render_template("direct_ruise.html", **context)
 
-
+  #type
+  
+  cust_budget_loc = request.form['cust_budget']
+  cust_rating_loc = request.form['cust_rating']
+  
+  cust_specialty_loc = request.form['cust_specialty']
+  cust_climate_loc = request.form['cust_climate']
+  is_domestic_loc = request.form['is_domestic']
+  
+  
+  return render_template("direct_cruise.html", **context)
 
 if __name__ == "__main__":
   import click
