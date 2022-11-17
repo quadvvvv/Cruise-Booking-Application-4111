@@ -326,13 +326,13 @@ def user_home():
   return render_template("user_home.html", **context)
 
 
-@app.route('/find_company', METHODS =['POST'])
+@app.route('/find_company', methods=['POST'])
 def find_company():
   company_id = request.form['compId']
   context = dict(compId = company_id)
   return render_template("company_detail.html", **context)
 
-@app.route('/find_cruise', METHODS =['POST'])
+@app.route('/find_cruise', methods=['POST'])
 def find_cruise():
   cruise_id = request.form['cruiseId']
   context = dict(cruiseId = cruise_id)
