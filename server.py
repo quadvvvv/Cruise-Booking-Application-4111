@@ -550,23 +550,24 @@ def direct_book():
   global cust_username
   context = None
   context = dict(userName = cust_username)
-  return render_template("direct_cruise.html", **context)
+  return render_template("direct_book.html", **context)
 
 @app.route('/directly_book', methods=['POST'])
 def directly_book():
   global cust_username
   context = None
 
-  #type
+  
+  #strategy here:
+  #composite each filter with itself and the actual condition
+  # WHERE (filter_1 IS NULL OR filter_1 > some_val)
   
   cust_budget_loc = request.form['cust_budget']
   cust_rating_loc = request.form['cust_rating']
-  
   cust_specialty_loc = request.form['cust_specialty']
   cust_climate_loc = request.form['cust_climate']
   is_domestic_loc = request.form['is_domestic']
-  
-  
+
   return render_template("direct_cruise.html", **context)
 
 if __name__ == "__main__":
