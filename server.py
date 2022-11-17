@@ -608,13 +608,13 @@ def directly_book():
       query_con_2 = "AND c.cruise_rating >= {} ".format(cust_rating_loc)
 
     if cust_specialty_loc != "":
-      query_con_3 = "AND (d1.dest_specialty = {} OR d2.dest_specialty = \"{}\" ) ".format(cust_specialty_loc, cust_specialty_loc)
+      query_con_3 = "AND (d1.dest_specialty = \"{}\" OR d2.dest_specialty = \"{}\" ) ".format(cust_specialty_loc, cust_specialty_loc)
 
     if cust_climate_loc != "":
-      query_con_4 = "AND (d1.dest_climate = {} OR d2.dest_climate = \"{}\" ) ".format(cust_climate_loc, cust_climate_loc)
+      query_con_4 = "AND (d1.dest_climate = \"{}\" OR d2.dest_climate = \"{}\" ) ".format(cust_climate_loc, cust_climate_loc)
     
     if is_domestic_loc != "":
-      query_con_5 = "AND (d1.dest_is_domestic = {} AND d2.dest_is_domestic = \"{}\" ) ".format(is_domestic_loc, is_domestic_loc)
+      query_con_5 = "AND (d1.dest_is_domestic = \"{}\" AND d2.dest_is_domestic = \"{}\" ) ".format(is_domestic_loc, is_domestic_loc)
   
     sql_query = query_select + query_from + query_whr + query_con_1 + query_con_2 + query_con_3 + query_con_4 + query_con_5
     print(sql_query)
