@@ -582,12 +582,13 @@ def directly_book():
     context.update(promptMsg = "⚠️ Oops, something went wrong :C You may want to try again... ⚠️")
     return render_template("direct_cruise.html", **context)
   
-  if len(cruise_records) >0:
+  if len(cruise_records) > 0:
     context.update(promptMsg = "Woohoo! We found the cruises that suit you! 🍀")
     context.update(cruiseRecords = cruise_records)
   else:
-    context.update(promtpMsg = "Ooops! Currently, we don't have anything that matches your preferences. 🧎")
+    context.update(promptMsg = "Ooops! Currently, we don't have anything that matches your preferences. 🧎")
     context.update(cruiseRecords = None)
+
   return render_template("direct_cruise.html", **context)
 
 if __name__ == "__main__":
