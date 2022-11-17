@@ -358,6 +358,7 @@ def find_cruise():
   cruise_id = request.form['cruiseId']
   context = dict(cruiseId = cruise_id)
   context.update(userName = cust_username)
+  dest_records = []
 
   # fetch cruise
   cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', cruise_id)
@@ -369,10 +370,23 @@ def find_cruise():
     return render_template("cruise_detail.html", **context)
 
   # case 2 - normal
+  context.update(promptMsg = "Woohoo! We found your cruise, and here's your destinations information🍀")
+  sail_to = None
+  sail_from = None
+  cursor = g.conn.execute('SELECT dest_id FROM sail_to s WHERE s.cruise_id = (%s)', cruise_id)
+  sail_to = cursor.fetchone()['dest_id']
+  cursor = g.conn.execute('SELECT dest_id FROM sail_from s WHERE s.cruise_id = (%s)', cruise_id)
+  sail_from = cursor.fetchone()['dest_id']
 
-  context.update(userName = cust_username)
-  context.update(promptMsg = "Woohoo! We found your cruise 🍀")
+  cursor = g.conn.execute('SELECT * FROM destinations d WHERE d.dest_id = (%s)',sail_from)
+  dest_record = cursor.fetchone()
+  dest_records.append(dest_record)
+  if(sail_to != sail_from):
+    cursor = g.conn.execute('SELECT * FROM destinations d WHERE d.dest_id = (%s)',sail_to)
+    dest_record = cursor.fetchone()
+    dest_records.append(dest_record)
 
+  context.update(destRecords = dest_records)
   return render_template("cruise_detail.html", **context)
 
 
