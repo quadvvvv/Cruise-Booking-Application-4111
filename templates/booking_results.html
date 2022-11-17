@@ -1,0 +1,45 @@
+<html>
+    <style>
+    body{ 
+      text-align: center;
+      font-size: 15pt;
+      font-family: arial;
+    }
+    table{
+      text-align: center;
+    }
+    tr:nth-child(even) {
+  background-color: #B6D4E7;
+    }
+  </style>
+    <body>
+        <h1>🌊🌊🚢🌊🌊Hello, {{userName}} 🌊🌊🚢🌊🌊</h1>
+        <br>
+        <p> {{promptMsg}} </p>
+        <br>
+        <table id="booking_data" style="margin-left: auto;
+            margin-right: auto;">
+            <thead style="background-color: #B6D4E7;">
+                <tr>
+                    <th>Booking Id</th>
+                    <th>Company Id</th>
+                    <th>Customer Id</th>
+                    <th>Cruise Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%if bookRecord != None%}
+                <tr>
+                    <td>{{ bookRecord['book_id'] }}</td>
+                    <td>{{ bookRecord['comp_id'] }}</td>
+                    <td>{{ bookRecord['cust_id'] }}</td>
+                    <td>{{ bookRecord['cruise_id']}}</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+
+        <p> 🗺️Please choose other options below to proceed:</p>
+        <p>🌸<a href="user_home">Back to your options</a>.</p>
+        <p>🍃<a href="home">Exit login & Return to home</a>.</p>

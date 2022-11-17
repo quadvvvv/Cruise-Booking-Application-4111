@@ -482,7 +482,44 @@ def random_cruise():
 
 @app.route('/book_cruise', methods=['POST'])
 def book_cruise():
-  return null
+  global cust_username, cust_id
+  context=dict(userName = cust_username)
+  cruise_id = request.form['cruiseId']
+  
+  try:
+    # case 1 - success
+    cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', cruise_id)
+    comp_id = cursor.fetchone()['comp_id']
+
+    # randomly assign book_id
+    cursor = g.conn.execute('SELECT book_id FROM booking_records')
+    new_book_id =  random.randint(0,10000)
+
+    results = cursor.fetchall()
+    print(results)
+
+    while( new_book_id in results):
+      new_book_id = random.randint(0,10000)
+
+    args = (str(new_book_id), comp_id, cust_id, cruise_id)
+    g.conn.execute('INSERT INTO booking_records(book_id, comp_id, cust_id, cruise_id) VALUES(%s, %s, %s, %s)', args)
+
+    cursor = g.conn.execute('SELECT * FROM booking_records b WHERE b.book_id = (%s)', str(new_book_id))
+
+    booking_record = cursor.fetchone()
+
+    context.update(bookRecord = booking_record)
+    context.update(promtpMsg = "🎉Congratulations on your successful booking!🎉")
+    return render_template("booking_results.html", **context)
+  
+  except:
+    # case 2 - failed
+    traceback.print_exc()
+    context.update(bookRecord = None)
+    context.update(promtpMsg = "⚠️Oops, something went wrong⚠️")
+    return render_template("booking_results.html", **context)
+
+
 
 if __name__ == "__main__":
   import click
