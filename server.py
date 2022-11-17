@@ -544,7 +544,7 @@ def book_cruise():
     context.update(promptMsg = "⚠️ Oops, something went wrong ⚠️ You may have booked for this cruise already, or some unkown error occurs... ")
     return render_template("booking_results.html", **context)
 
-@app.route('/direct_book', methods=['POST'])
+@app.route('/direct_book')
 def direct_book():
   context = None
 
@@ -552,6 +552,12 @@ def direct_book():
   # direct_cruise.html -> action = book_cruise!
   
   return render_template("direct_cruise.html", **context)
+
+@app.route('/directly_book', methods=['POST'])
+def directly_book():
+  context = None
+  return render_template("direct_ruise.html", **context)
+
 
 
 if __name__ == "__main__":
