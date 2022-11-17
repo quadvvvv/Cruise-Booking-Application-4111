@@ -556,17 +556,31 @@ def direct_book():
 def directly_book():
   global cust_username
   context = None
-
-  
-  #strategy here:
-  #composite each filter with itself and the actual condition
+  # strategy here:
+  # composite each filter with itself and the actual condition
   # WHERE (filter_1 IS NULL OR filter_1 > some_val)
-  
+
+  # if fields not filld, it will be empty string: "";
   cust_budget_loc = request.form['cust_budget']
   cust_rating_loc = request.form['cust_rating']
   cust_specialty_loc = request.form['cust_specialty']
   cust_climate_loc = request.form['cust_climate']
   is_domestic_loc = request.form['is_domestic']
+
+  # 
+  # print("test: " + cust_budget_loc + " ;")
+  # print("test: " + cust_rating_loc + " ;")
+  # print("test: " + cust_specialty_loc + " ;")
+  # print("test: " + cust_climate_loc + " ;")
+  # print("test: " + is_domestic_loc + " ;")
+
+  try:
+    #testing
+    #TODO: NEED SQL QUERY
+    # Figure out the logic table for the 5 composite filters
+    return
+  except:
+    traceback.print_exc()
 
   return render_template("direct_cruise.html", **context)
 
