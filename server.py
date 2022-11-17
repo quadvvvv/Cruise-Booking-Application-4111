@@ -574,10 +574,7 @@ def directly_book():
   # print("test: " + cust_climate_loc + " ;")
   # print("test: " + is_domestic_loc + " ;")
 
-  if cust_budget_loc == "":
-    cust_budget_loc = "NULL"
-  if cust_rating_loc == "":
-    cust_rating_loc = "NULL" 
+  
   
 
   try:
@@ -590,6 +587,10 @@ def directly_book():
    
     # orignial solution
     # # combo of con_1 & con_2 tested.
+    # if cust_budget_loc == "":
+    #   cust_budget_loc = "NULL"
+    # if cust_rating_loc == "":
+    #   cust_rating_loc = "NULL" 
     # query_con_1 = 'AND ({} IS NULL OR c.cruise_cost <= {})'.format(cust_budget_loc, cust_budget_loc ) # tested!
     # query_con_2 = 'AND ({} IS NULL OR c.cruise_rating >= {})'.format(cust_rating_loc, cust_rating_loc)  # tested!
     
