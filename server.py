@@ -595,10 +595,10 @@ def directly_book():
     query_from = 'FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 '
     query_whr = 'WHERE c.cruise_id = s1.cruise_id AND  s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id '
     query_con_1 = 'AND ({} IS NULL OR c.cruise_cost <= {})'.format(cust_budget_loc, cust_budget_loc ) # tested!
-    query_con_2 = 'AND ({} IS NULL OR c.cruise_rating >= {})'.format(cust_rating_loc, cust_rating_loc  # tested!
+    query_con_2 = 'AND ({} IS NULL OR c.cruise_rating >= {})'.format(cust_rating_loc, cust_rating_loc)  # tested!
     # query_con_3 = 'AND ({} IS NULL OR d1.dest_specialty = {} OR d2.dest_specialty = {} )'.format(cust_specialty_loc, cust_specialty_loc, cust_specialty_loc) 
-    query_con_4 = ''
-    query_con_5 = ''
+    # query_con_4 = ''
+    # query_con_5 = ''
     sql_query = query_select + query_from + query_whr + query_con_1 + query_con_2
     #  AND c.cruise_rating >= (%s) AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) ORDER BY random() LIMIT 1',user_budget, user_rating, user_specialty, user_specialty)
     cursor = g.conn.execute(sql_query)
