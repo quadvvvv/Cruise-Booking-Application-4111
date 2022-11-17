@@ -551,10 +551,12 @@ def direct_book():
   context = None
   context = dict(userName = cust_username)
   return render_template("direct_book.html", **context)
+  
 
 @app.route('/directly_book', methods=['POST'])
 def directly_book():
   global cust_username
+  cruise_records = []
   context = None
   context = dict(userName = cust_username)
   
@@ -573,10 +575,18 @@ def directly_book():
     else:
       cursor = g.conn.execute('SELECT * FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND c.cruise_cost <= (%s) AND c.cruise_rating >= (%s) AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) AND (d1.dest_climate = (%s) OR d2.dest_climate = (%s)) AND (d1.dest_is_domestic = (%s) AND d2.dest_is_domestic = (%s)) ',(cust_budget_loc, cust_rating_loc,cust_specialty_loc, cust_specialty_loc, cust_climate_loc, cust_climate_loc, is_domestic_loc, is_domestic_loc))
     for result in cursor:
-      print(result)
+      cruise_records.append(result)
   except:
     traceback.print_exc()
-
+    context.update(promptMsg = "⚠️ Oops, something went wrong :C You may want to try again... ⚠️")
+    return render_template("direct_cruise.html", **context)
+  
+  if len(cruise_records) >0:
+    context.update(promptMsg = "Woohoo! We found the cruises that suit you! 🍀")
+    context.update(cruiseRecords = cruise_records)
+  else:
+    context.update(promtpMsg = "Ooops! Currently, we don't have anything that matches your preferences. 🧎")
+    context.update(cruiseRecords = None)
   return render_template("direct_cruise.html", **context)
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@
       text-align: center;
     }
     tr:nth-child(even) {
-  background-color: #d9f5c9;
+  background-color: #c9e1ff;
     }
   </style>
     <body>
@@ -21,7 +21,7 @@
 
         <table id="cruise_data" style="margin-left: auto;
             margin-right: auto;">
-            <thead style="background-color: #d9f5c9;">
+            <thead style="background-color: #a9d0fa;">
                 <tr>
                     <th>Cruise Id </th>
                     <th>Cruise Name</th>
@@ -29,38 +29,61 @@
                     <th>Cruise Cost</th>
                     <th>Cruise Start Date</th>
                     <th>Cruise End Date</th>
+                    <th>Sail From: </th>
+                    <th>Avg. Temperature</th>
+                    <th>Climate</th>
+                    <th>Continent</th>
+                    <th>Specialty</th>
+                    <th>Is the Destination Demestic?</th>
+                    <th>Sail To: </th>
+                    <th>Avg. Temperature</th>
+                    <th>Climate</th>
+                    <th>Continent</th>
+                    <th>Specialty</th>
+                    <th>Is the Destination Demestic?</th>
                 </tr>
             </thead>
             <tbody>
                 {% if cruiseRecords != None %}
                 {% for cruise in cruiseRecords %}
                 <tr>
-                    <td>{{ cruise['cruise_id']}} </td>
-                    <td>{{ cruise['cruise_name']}}</td>
-                    <td>{{ cruise['cruise_rating'] }}</td>
-                    <td>{{ cruise['cruise_cost'] }}</td>
-                    <td>{{ cruise['cruise_start_date']}}</td>
-                    <td>{{ cruise['cruise_end_date']}}</td>
+                    <td>{{ cruise[0]}} </td>
+                    <td>{{ cruise[2]}} </td>
+                    <td>{{ cruise[4]}} </td>
+                    <td>{{ cruise[5]}} </td>
+                    <td>{{ cruise[6]}} </td>
+                    <td>{{ cruise[7]}} </td>
+                    <td>{{ cruise[18]}} </td>
+                    <td>{{ cruise[13]}} </td>
+                    <td>{{ cruise[14}} </td>
+                    <td>{{ cruise[15]}} </td>
+                    <td>{{ cruise[16]}} </td>
+                    <td>{{ cruise[17]}} </td>
+                    <td>{{ cruise[25]}} </td>
+                    <td>{{ cruise[20]}} </td>
+                    <td>{{ cruise[21]}} </td>
+                    <td>{{ cruise[22]}} </td>
+                    <td>{{ cruise[23]}} </td>
+                    <td>{{ cruise[24]}} </td>
+              
                 </tr>
                 {% endfor %}
                 {% endif %}
             </tbody>
         </table>
         <br>
-        <p> ❤️Please type in the (Cruise Id)
+        <p> 💗 Please type in the (Cruise Id)
             below to book the cruise:</p>
         <form method="POST" action="/book_cruise">
             <input name="cruiseId" id="cruiseId" placeholder="cruise id"
                 required>
             <input type="submit" value="Book">
         </form>
-        <p> 🗺️Otherwise, you can always choose other options below:</p>
+        <p> 🗺️ Otherwise, you can always choose other options below:</p>
 
-
-
-        <p>🎲🎲<a href="direct_book">Reselect your preferences</a>🎲🎲</p>
-        <p>🌸<a href="user_home">Back to your options</a>.</p>
-        <p>🍃<a href="home">Exit login & Return to home</a>.</p>
+        <p>🎲🎲 <a href="direct_book">Reselect your preferences</a> 🎲🎲</p>
+        <p>🌸 <a href="user_home">Back to your options</a>.</p>
+        <p>🍃 <a href="home">Exit login & Return to home</a>.</p>
         <br>
     </body>
 </html>
