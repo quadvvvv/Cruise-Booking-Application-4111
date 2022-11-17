@@ -446,7 +446,7 @@ def random_cruise():
     # satisfying cruise_id, randomly selected by postgresql
     cursor = g.conn.execute('SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest FROM sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) ORDER BY random() LIMIT 1', user_specialty, user_specialty)
     
-    if(cursor.rowcount() > 0):
+    if(cursor.rowcount > 0):
       tpl = cursor.fetchone()
 
     # case 1 - DNE
