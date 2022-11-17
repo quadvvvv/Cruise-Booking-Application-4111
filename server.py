@@ -328,22 +328,40 @@ def user_home():
 
 @app.route('/find_company', methods=['POST'])
 def find_company():
+  global cust_username
+  
   company_id = request.form['compId']
   context = dict(compId = company_id)
-  #
+  context.update(userName = cust_username)
+
+  # fetch company
+  cursor = g.conn.execute('SELECT * FROM companies C WHERE C.comp_id= (%s)', company_id)
+
+  # DNE
+  if(cursor.rowcount <= 0):
+      context.update(promptMsg = "Your Company doesn't exist in our database⚠️, please try again⚠️")
+      return render_template("company_detail.html", **context )
+
+  result = cursor.fetchone()
+  context.update(compInfo = result)
+  context.update(promptMsg = "Woohoo! We found your company 🍀")
   return render_template("company_detail.html", **context)
 
 @app.route('/find_cruise', methods=['POST'])
 def find_cruise():
+  global cust_username
+
   cruise_id = request.form['cruiseId']
   context = dict(cruiseId = cruise_id)
+  context.update(userName = cust_username)
+
   return render_template("company_detail.html", **context)
 
 
 @app.route('/home')
 def home_2():
   home_msg = 'Welcome Back to CruiseWithMe'
-  context=dict(homeMsg = home_msg)
+  context=dict(homeMsg = home_msg) 
   return render_template("home.html", **context)
 
 

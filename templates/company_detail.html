@@ -15,32 +15,27 @@
   <body>
     <h1>🌊🌊🚢🌊🌊Hello, {{userName}} 🌊🌊🚢🌊🌊</h1>
     <br>
-    <p> 🍃Here's the detailed information about company {{compId}} 📖:
+    <p> 🍃{prompMsg} 🌊 Company Id: {{compId}} 📖:
     </p>
     <br>
-    <table id="cruise_data" style="margin-left: auto;
+    <table id="comp_info" style="margin-left: auto;
       margin-right: auto;">
-      <thead style="background-color: #d9f5c9;">
-        <tr>
-              <th>Cruise Id </th>
-              <th>Cruise Name</th>
-              <th>Cruise Rating</th>
-              <th>Cruise Cost</th>
-              <th>Cruise Start Date</th>
-              <th>Cruise End Date</th>
+      <thead style="background-color: #f5e0c9;">
+            <tr>
+              <th>Company Id</th>
+              <th>Company Name</th>
+              <th>Company Location</th>
+              <th>Company Rating</th>
             </tr>
           </thead>
           <tbody>
-            {% for cruise in cruiseRecords %}
             <tr>
-              <td>{{ cruise['cruise_id']}} </td>
-              <td>{{ cruise['cruise_name']}}</td>
-              <td>{{ cruise['cruise_rating'] }}</td>
-              <td>{{ cruise['cruise_cost'] }}</td>
-              <td>{{ cruise['cruise_start_date']}}</td>
-              <td>{{ cruise['cruise_end_date']}}</td>
+              <td>{{ compInfo['comp_id']}} </td>
+              <td>{{ compInfo['comp_name']}}</td>
+              <td>{{ compInfo['comp_loc'] }}</td>
+              <td>{{ compInfo['comp_rating'] }}</td>
             </tr>
-            {% endfor %}
+      
           </tbody>
         </table>
         <p>🌌<a href="booking_records">Back to your booking results</a>.</p>
