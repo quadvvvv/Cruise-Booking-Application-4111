@@ -339,9 +339,9 @@ def find_company():
 
   # case 1 - DNE
   if(cursor.rowcount <= 0):
-      context.update(promptMsg = "Your Company doesn't exist in our database⚠️, please try again⚠️")
-      context.update(compInfo = None)
-      return render_template("company_detail.html", **context )
+    context.update(promptMsg = "Your Company doesn't exist in our database⚠️, please try again⚠️")
+    context.update(compInfo = None)
+    return render_template("company_detail.html", **context )
 
   # both cases teseted!
 
@@ -434,6 +434,27 @@ def booking_recrods():
     return render_template("user_home.html", **context)
 
   return render_template("booking_records.html", **context)
+
+@app.route('/random_cruise')
+def random_cruise():
+  global cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating
+  context = dict(userName = cust_username)
+  cruise_crecord = []
+  dest_records = {}
+
+  
+
+  # case 1 - DNE
+  if (cursor.rowcount <= 0):
+    context.update(promptMsg = "Oops, we didn't find a matching cruise for you :C")
+    context.update(cruiseRecord = None)
+    context.update(destRecords = None)
+    return render_template("random.cruise.html", **context)
+
+  # case 2 - normal
+
+  context.update(promptMsg = "Woohoo! We found your company 🍀")
+  return render_template("random.cruise.html", **context)
 
 
 
