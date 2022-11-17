@@ -454,7 +454,7 @@ def random_cruise():
       context.update(promptMsg = "Oops, we didn't find a matching cruise for you :C")
       context.update(cruiseRecord = None)
       context.update(destRecords = None)
-      return render_template("random.cruise.html", **context)
+      return render_template("random_cruise.html", **context)
 
     # case 2 - normal
 
@@ -473,6 +473,7 @@ def random_cruise():
       dest_record = cursor.fetchone()
       dest_records.append(dest_record)
 
+    print(cruise_record)
     context.update(destRecords = dest_records)
     context.update(promptMsg = "Woohoo! We found your company 🍀")
     return render_template("random_cruise.html", **context)
