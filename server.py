@@ -330,6 +330,7 @@ def user_home():
 def find_company():
   company_id = request.form['compId']
   context = dict(compId = company_id)
+  #
   return render_template("company_detail.html", **context)
 
 @app.route('/find_cruise', methods=['POST'])
