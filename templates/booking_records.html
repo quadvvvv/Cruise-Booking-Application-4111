@@ -46,30 +46,47 @@
       margin-right: auto;">
       <thead style="background-color: #d9f5c9;">
         <tr>
-              <th>Cruise Id </th>
-              <th>Cruise Name</th>
-              <th>Cruise Rating</th>
-              <th>Cruise Cost</th>
-              <th>Cruise Start Date</th>
-              <th>Cruise End Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for cruise in cruiseRecords %}
-            <tr>
-              <td>{{ cruise['cruise_id']}} </td>
-              <td>{{ cruise['cruise_name']}}</td>
-              <td>{{ cruise['cruise_rating'] }}</td>
-              <td>{{ cruise['cruise_cost'] }}</td>
-              <td>{{ cruise['cruise_start_date']}}</td>
-              <td>{{ cruise['cruise_end_date']}}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+          <th>Cruise Id </th>
+          <th>Cruise Name</th>
+          <th>Cruise Rating</th>
+          <th>Cruise Cost</th>
+          <th>Cruise Start Date</th>
+          <th>Cruise End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cruise in cruiseRecords %}
+        <tr>
+          <td>{{ cruise['cruise_id']}} </td>
+          <td>{{ cruise['cruise_name']}}</td>
+          <td>{{ cruise['cruise_rating'] }}</td>
+          <td>{{ cruise['cruise_cost'] }}</td>
+          <td>{{ cruise['cruise_start_date']}}</td>
+          <td>{{ cruise['cruise_end_date']}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-        <p>🌸<a href="user_home">Back to your options</a>.</p>
-        <p>🍃<a href="home">Exit login & Return to home</a>.</p>
-        <br>
-      </body>
-    </html>
+    <p> ✨For more information about a specific company or cruise, please use the
+      search function below 🔍: </p>
+
+
+    <form method="POST" action="/find_company">
+      <label for="searchCompany">1. Find information about a cruise company:</label>
+      <input name="compId" id="compId" placeholder="company id" required>
+
+      <input type="submit" value="Search">
+    </form>
+    <form method="POST" action="/find_cruise">
+      <label for="searchCruise">2. Find information about a cruise:</label>
+      <input name="compId" id="compId" placeholder="cruise id" required>
+      <input type="submit" value="Search">
+    </form>
+
+    <p>🌸<a href="user_home">Back to your options</a>.</p>
+    <p>🍃<a href="home">Exit login & Return to home</a>.</p>
+    <br>
+
+  </body>
+</html>

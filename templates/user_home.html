@@ -9,17 +9,33 @@
   <body>
     <h1>🌊🌊🚢🌊🌊Welcome, {{userName}} 🌊🌊🚢🌊🌊</h1>
     <br>
-    <p> 🍃Hopefully, we could help you with one of the following services 🔍: </p>
-    <br>
- 
+    <p> 🍃Hopefully, we could help you with one of the following booking
+      services 🚢: </p>
     <p>1. <a href="booking_records">Find your booking record with us</a>.</p>
     <p>2. <a href="random_cruise">Book a cruise that we think will suit you</a>.</p>
-    <p>3. <a href="filtered_cruise">Book a cruise based on your current preferences</a>.</p>
+    <p>3. <a href="filtered_cruise">Book a cruise based on your current
+        preferences</a>.</p>
+
+    <br>
+    <p> ✨If you have specific information needs, we can also help with that 🔍:
+    </p>
+    
+    <form method="POST" action="/find_company">
+      <label for="searchCompany">1. Find information about a cruise company:</label>
+      <input name="compId" id="compId" placeholder="company id" required>
+
+      <input type="submit" value="Search">
+    </form>
+    <form method="POST" action="/find_cruise">
+      <label for="searchCruise">2. Find information about a cruise:</label>
+      <input name="compId" id="compId" placeholder="cruise id" required>
+      <input type="submit" value="Search">
+    </form>
 
     <br>
     <p>🍃<a href="home">Exit login & Return to home</a>.</p>
-    <br>
   </body>
+
 
 
 </html>
