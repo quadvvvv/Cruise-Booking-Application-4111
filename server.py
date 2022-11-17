@@ -567,8 +567,7 @@ def directly_book():
   cust_specialty_loc = request.form['cust_specialty']
   cust_climate_loc = request.form['cust_climate']
   is_domestic_loc = request.form['is_domestic']
-
-  # 
+  
   # print("test: " + cust_budget_loc + " ;")
   # print("test: " + cust_rating_loc + " ;")
   # print("test: " + cust_specialty_loc + " ;")
@@ -580,7 +579,7 @@ def directly_book():
     #TODO: NEED SQL QUERY
     # Figure out the logic table for the 5 composite filters
     if cust_budget_loc == "":
-      cust_budget_loc == "NULL"
+      cust_budget_loc = "NULL"
 
     query_select = 'SELECT * '
     # query_select = 'SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest '
