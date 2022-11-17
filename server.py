@@ -497,7 +497,7 @@ def book_cruise():
 
 
     results = cursor.fetchall()
-    results = [item for items in results for item in items]
+    results = [int(item) for items in results for item in items]
     print(results)
 
     while( new_book_id in results):
