@@ -435,6 +435,12 @@ def booking_recrods():
 
   return render_template("booking_records.html", **context)
 
+@app.route('/filtered_cruise')
+def filtered_cruise():
+  global cust_username
+  context=dict(userName = cust_username)
+  return render_template("filtered_cruise.html", **context)
+
 
 
 if __name__ == "__main__":
