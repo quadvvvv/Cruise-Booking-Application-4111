@@ -347,7 +347,7 @@ def find_company():
     context.update(compInfo = None)
     return render_template("company_detail.html", **context )
 
-  # both cases teseted!
+  # both cases tested!
 
   # case 2 - normal
   result = cursor.fetchone()
@@ -445,12 +445,12 @@ def random_cruise():
   dest_records = []
 
   try:
-    # satisfying cruise_id, randomly selected by postgresql
-    cursor = g.conn.execute('SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest FROM sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) ORDER BY random() LIMIT 1', user_specialty, user_specialty)
+    # satisfying all the conditions, i.e. user_budget, user_specialty, user_rating
+    cursor = g.conn.execute('SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND c.cruise_cost <= (%s) AND c.cruise_rating >= (%s) AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) ORDER BY random() LIMIT 1',user_budget, user_rating, user_specialty, user_specialty)
     
     if(cursor.rowcount > 0):
       tpl = cursor.fetchone()
-
+      
     # case 1 - DNE
     if (tpl == None):
       context.update(promptMsg = "Oops, we didn't find a matching cruise for you :C")
@@ -514,14 +514,14 @@ def book_cruise():
     booking_record = cursor.fetchone()
 
     context.update(bookRecord = booking_record)
-    context.update(promptMsg = "🎉Congratulations on your successful booking!🎉")
+    context.update(promptMsg = "🎉 Congratulations on your successful booking! 🎉")
     return render_template("booking_results.html", **context)
   
   except:
     # case 2 - failed
     traceback.print_exc()
     context.update(bookRecord = None)
-    context.update(promptMsg = "⚠️Oops, something went wrong⚠️ You may have booked for this cruise already, or some unkown error occurs...")
+    context.update(promptMsg = "⚠️ Oops, something went wrong ⚠️ You may have booked for this cruise already, or some unkown error occurs... ")
     return render_template("booking_results.html", **context)
 
 
