@@ -573,24 +573,32 @@ def directly_book():
   # print("test: " + cust_specialty_loc + " ;")
   # print("test: " + cust_climate_loc + " ;")
   # print("test: " + is_domestic_loc + " ;")
-
+  if cust_budget_loc == "":
+    cust_budget_loc = "NULL"
+  if cust_rating_loc == "":
+    cust_rating_loc = "NULL"
+  if cust_specialty_loc == "":
+    cust_specialty_loc = "NULL"  
+  if cust_climate_loc == "":
+    cust_climate_loc = "NULL"  
+  
+  # this should be a special case due to boolean
+  if is_domestic_loc == "":
+    is_domestic_loc = "NULL"
   try:
-    #testing
     #TODO: NEED SQL QUERY
     # Figure out the logic table for the 5 composite filters
-    if cust_budget_loc == "":
-      cust_budget_loc = "NULL"
-
+    
     query_select = 'SELECT * '
     # query_select = 'SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest '
     query_from = 'FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 '
     query_whr = 'WHERE c.cruise_id = s1.cruise_id AND  s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id '
-    query_con_1 = 'AND ({} IS NULL OR c.cruise_cost <= {})'.format(cust_budget_loc, cust_budget_loc)
-    query_con_2 = ''
+    # query_con_1 = 'AND ({} IS NULL OR c.cruise_cost <= {})'.format(cust_budget_loc, cust_budget_loc) # tested!
+    query_con_2 = 'AND ({} IS NULL OR c.cruise_rating >= {})'.format(cust_rating_loc, cust_rating_loc)
     query_con_3 = ''
     query_con_4 = ''
     query_con_5 = ''
-    sql_query = query_select + query_from + query_whr + query_con_1
+    sql_query = query_select + query_from + query_whr + query_con_2
     #  AND c.cruise_rating >= (%s) AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) ORDER BY random() LIMIT 1',user_budget, user_rating, user_specialty, user_specialty)
     cursor = g.conn.execute(sql_query)
     for result in cursor:
