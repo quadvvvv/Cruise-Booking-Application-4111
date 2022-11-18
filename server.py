@@ -429,7 +429,7 @@ def booking_recrods():
       print(len(record['cruise_id']))
       cruise_id = record['cruise_id']
       # get cruise_info
-      cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', str(cruise_id))
+      cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', cruise_id.strip())
       if(cursor.rowcount != 0):
         cruise = cursor.fetchone()
         cruise_records.append(cruise)
