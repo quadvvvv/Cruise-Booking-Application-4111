@@ -426,6 +426,7 @@ def booking_recrods():
     for record in booking_records:
       print(record['cruise_id'])
       cruise_id = record['cruise_id']
+      type(cruise_id)
       # get cruise_info
       cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', str(cruise_id))
       if(cursor.rowcount != 0):
