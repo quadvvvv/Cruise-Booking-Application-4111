@@ -424,6 +424,7 @@ def booking_recrods():
     #case 2 - normal
     booking_records = cursor.fetchall()
     for record in booking_records:
+      print(record['cruise_id'])
       cruise_id = record['cruise_id']
       # get cruise_info
       cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', cruise_id)
@@ -436,7 +437,7 @@ def booking_recrods():
     context.update(userRecords = booking_records)
     # cruise
     print(cruise_records)
-    cruise_records.sort(key=lambda x: x['cruise_start_date'])
+    cruise_records.sort(key=lambda x: x['cruise_start_date'], reverse=True)
     context.update(cruiseRecords = cruise_records)
   except:
     traceback.print_exc()
