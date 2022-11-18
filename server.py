@@ -590,14 +590,9 @@ def directly_book():
   cruise_records = []
   context = None
   context = dict(userName = cust_username)
-
-  # one last shot:
   
   # DESIGN CHANGE: still optional fields, using sql text;
   cust_start_date = request.form['cust_start_date']
-  print(cust_start_date)
-  print(type(cust_start_date))
-  print(str(cust_start_date))
   cust_budget_loc = request.form['cust_budget']
   cust_rating_loc = request.form['cust_rating']
   cust_specialty_loc = request.form['cust_specialty']
@@ -607,7 +602,8 @@ def directly_book():
   #SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest
   # reference: https://www.programcreek.com/python/example/51986/sqlalchemy.sql.text
   params = {}
-  text = "SELECT * FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id "
+  params['start_date'] = str(cust_start_date)
+  text = "SELECT * FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND c.cruise_start_date >= :start_date "
 
   if cust_budget_loc != "":
     text += " AND c.cruise_cost <= :cruise_cost "
