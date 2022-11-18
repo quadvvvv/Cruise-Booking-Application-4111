@@ -17,6 +17,7 @@ from flask import Flask, flash, request, render_template, g, redirect, Response
 ### New Imports 
 import random
 import traceback
+from sqlalchemy import sql
 
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
