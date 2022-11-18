@@ -424,8 +424,7 @@ def booking_recrods():
     #case 2 - normal
     booking_records = cursor.fetchall()
     for record in booking_records:
-      
-      print(type(cruise_id))
+      print(type(record['cruise_id']))
       print(record['cruise_id'])
       cruise_id = record['cruise_id']
       # get cruise_info
