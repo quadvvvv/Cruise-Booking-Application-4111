@@ -21,7 +21,8 @@
 
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-    <table frame="border">
+    <table frame="border" style="margin-left: auto;
+    margin-right: auto;">
       <tr>
         <td>
           <ul class=flashes>
@@ -35,7 +36,7 @@
     {% endif %}
     {% endwith %}
     <br>
-    
+
     <table id="booking_data" style="margin-left: auto;
       margin-right: auto;">
       <thead style="background-color: #B6D4E7;">
