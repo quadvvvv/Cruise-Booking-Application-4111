@@ -594,6 +594,10 @@ def directly_book():
   # one last shot:
   
   # DESIGN CHANGE: still optional fields, using sql text;
+  cust_start_date = request.form['cust_start_dat']
+  print(cust_start_date)
+  print(type(cust_start_date))
+  print(str(cust_start_date))
   cust_budget_loc = request.form['cust_budget']
   cust_rating_loc = request.form['cust_rating']
   cust_specialty_loc = request.form['cust_specialty']
