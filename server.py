@@ -424,9 +424,10 @@ def booking_recrods():
     #case 2 - normal
     booking_records = cursor.fetchall()
     for record in booking_records:
+      
+      print(type(cruise_id))
       print(record['cruise_id'])
       cruise_id = record['cruise_id']
-      type(cruise_id)
       # get cruise_info
       cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', str(cruise_id))
       if(cursor.rowcount != 0):
@@ -522,7 +523,7 @@ def book_cruise():
   global cust_username, cust_id
   context=dict(userName = cust_username)
   cruise_id = request.form['cruiseId']
-  
+
   try:
     # case 1 - success
     cursor = g.conn.execute('SELECT * FROM cruises c WHERE c.cruise_id = (%s)', cruise_id)
