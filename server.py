@@ -18,6 +18,7 @@ from flask import Flask, flash, request, render_template, g, redirect, Response
 import random
 import traceback
 from sqlalchemy import sql
+from datetime import datetime
 
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
@@ -467,9 +468,12 @@ def random_cruise():
   tpl = None
   dest_records = []
 
+  start_date = datetime.today().strftime('%Y-%m-%d')
+  print(start_date)
+
   try:
     # satisfying all the conditions, i.e. user_budget, user_specialty, user_rating
-    cursor = g.conn.execute('SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND c.cruise_cost <= (%s) AND c.cruise_rating >= (%s) AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) ORDER BY random() LIMIT 1',user_budget, user_rating, user_specialty, user_specialty)
+    cursor = g.conn.execute('SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND c.cruise_cost <= (%s) AND c.cruise_rating >= (%s) AND c.cruise_start_date >=  (%s) AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) ORDER BY random() LIMIT 1',user_budget, user_rating, start_date, user_specialty, user_specialty)
     ## fully tested
     if(cursor.rowcount > 0):
       tpl = cursor.fetchone()
