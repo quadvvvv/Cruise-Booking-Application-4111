@@ -560,6 +560,8 @@ def directly_book():
   cruise_records = []
   context = None
   context = dict(userName = cust_username)
+
+  # one last shot;
   
   # DESIGN CHANGE: all fields must be filled now;
   cust_budget_loc = request.form['cust_budget']
