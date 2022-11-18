@@ -18,6 +18,7 @@ from flask import Flask, flash, request, render_template, g, redirect, Response
 import random
 import traceback
 
+
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 # tried to use flash but doesn't seem to work well...
@@ -561,9 +562,9 @@ def directly_book():
   context = None
   context = dict(userName = cust_username)
 
-  # one last shot;
+  # one last shot:
   
-  # DESIGN CHANGE: all fields must be filled now;
+  # DESIGN CHANGE: still optional fields, using sql text;
   cust_budget_loc = request.form['cust_budget']
   cust_rating_loc = request.form['cust_rating']
   cust_specialty_loc = request.form['cust_specialty']
@@ -571,12 +572,31 @@ def directly_book():
   is_domestic_loc = request.form['is_domestic']
 
   #SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest
+
+  # reference: https://www.programcreek.com/python/example/51986/sqlalchemy.sql.text
+  params = {}
+  text = "SELECT * FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id "
+
+  if cust_budget_loc != "":
+    query_con_1 = "AND c.cruise_cost <= :cruise_cost "
+
+  if cust_rating_loc != "":
+    query_con_2 = "AND c.cruise_rating >= {} "
+
+  if cust_specialty_loc != "":
+    query_con_3 = "AND (d1.dest_specialty = \"{}\" OR d2.dest_specialty = \"{}\" ) "
+
+  if cust_climate_loc != "":
+    query_con_4 = "AND (d1.dest_climate = \"{}\" OR d2.dest_climate = \"{}\" ) "
+
+  # if is_domestic_loc != "":
+  #   if is_domestic_loc == "FALSE": # can be overseas 
+  #     dosomething
+  #   else:
+  #     query_con_5 = "AND (d1.dest_is_domestic = \"{}\" AND d2.dest_is_domestic = \"{}\" ) "
   
-  try:
-    if is_domestic_loc == "FALSE": # can be overseas
-      cursor = g.conn.execute('SELECT * FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND c.cruise_cost <= (%s) AND c.cruise_rating >= (%s) AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) AND (d1.dest_climate = (%s) OR d2.dest_climate = (%s)) ',(cust_budget_loc, cust_rating_loc,cust_specialty_loc, cust_specialty_loc, cust_climate_loc, cust_climate_loc))
-    else:
-      cursor = g.conn.execute('SELECT * FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id AND c.cruise_cost <= (%s) AND c.cruise_rating >= (%s) AND (d1.dest_specialty = (%s) OR d2.dest_specialty = (%s)) AND (d1.dest_climate = (%s) OR d2.dest_climate = (%s)) AND (d1.dest_is_domestic = (%s) AND d2.dest_is_domestic = (%s)) ',(cust_budget_loc, cust_rating_loc,cust_specialty_loc, cust_specialty_loc, cust_climate_loc, cust_climate_loc, is_domestic_loc, is_domestic_loc))
+  try:  
+    cursor = g.conn.execute(sql.text(text), **params)
     for result in cursor:
       cruise_records.append(result)
   except:
