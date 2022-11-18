@@ -594,11 +594,9 @@ def directly_book():
     text += " AND (d1.dest_climate = :cust_climate OR d2.dest_climate = :cust_climate ) "
     params['cust_climate'] = cust_climate_loc
 
-  # if is_domestic_loc != "":
-  #   if is_domestic_loc == "FALSE": # can be overseas 
-  #     dosomething
-  #   else:
-  #     query_con_5 = "AND (d1.dest_is_domestic = \"{}\" AND d2.dest_is_domestic = \"{}\" ) "
+  if is_domestic_loc != "" and is_domestic_loc == "TRUE":
+    text += " AND (d1.dest_is_domestic = :is_domestic AND d2.dest_is_domestic = :is_domestic ) "
+    params['is_domestic'] = is_domestic_loc
   
   try:  
     cursor = g.conn.execute(sql.text(text), **params)
