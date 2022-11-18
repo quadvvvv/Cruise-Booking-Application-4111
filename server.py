@@ -239,7 +239,7 @@ def user_login():
       # tested :)
 
       context = dict(userName = cust_username)
-      print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating))
+      # print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating))
       return render_template("user_home.html", **context)
     # case 2.2 - unsuccessful login -> return to the login page
     # tested!
@@ -320,7 +320,7 @@ def user_register():
   user_rating = rating
 
   context = dict(userName = cust_username)
-  print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating))
+  # print((cust_username, cred_id, cust_id, user_budget, user_specialty, user_rating))
   return render_template("user_home.html", **context)
  
 @app.route('/user_home')
@@ -498,7 +498,7 @@ def random_cruise():
       dest_record = cursor.fetchone()
       dest_records.append(dest_record)
 
-    print(cruise_record)
+    # print(cruise_record)
     context.update(destRecords = dest_records)
     context.update(promptMsg = "Woohoo! We found your company 🍀")
     return render_template("random_cruise.html", **context)
@@ -550,7 +550,7 @@ def book_cruise():
     sail_from_dest_record = cursor.fetchone()
 
     if (sail_to_dest_record['dest_is_domestic'] == False) or (sail_from_dest_record['dest_is_domestic'] == False):
-      print("falsh prepared")
+      # print("falsh prepared")
       flash("🛃   The cruise you've booked may need your PASSPORT, please be prepared!   🛃")
 
     context.update(bookRecord = booking_record)
