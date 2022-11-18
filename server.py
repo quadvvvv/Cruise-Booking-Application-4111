@@ -434,6 +434,7 @@ def booking_recrods():
     # booking_records
     context.update(userRecords = booking_records)
     # cruise
+    print(cruise_records)
     cruise_records.sort(key=lambda x: x['cruise_start_date'])
     context.update(cruiseRecords = cruise_records)
   except:
