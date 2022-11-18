@@ -21,6 +21,7 @@ from sqlalchemy import sql
 from datetime import datetime
 
 
+
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 # tried to use flash but doesn't seem to work well...
@@ -433,7 +434,7 @@ def booking_recrods():
     # booking_records
     context.update(userRecords = booking_records)
     # cruise
-    cruise_records.sort(key = lambda i: i[4], reverse=True)
+    cruise_records.sort(key=lambda x: x['cruise_start_date'])
     context.update(cruiseRecords = cruise_records)
   except:
     traceback.print_exc()
