@@ -433,6 +433,7 @@ def booking_recrods():
     # booking_records
     context.update(userRecords = booking_records)
     # cruise
+    cruise_records.sort(key = lambda i: i[4], reverse=True)
     context.update(cruiseRecords = cruise_records)
   except:
     traceback.print_exc()
