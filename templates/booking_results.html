@@ -21,16 +21,21 @@
 
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-    <ul class=flashes>
-      {% for category, message in messages %}
-      <li class="{{ category }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
+    <table frame="border">
+      <tr>
+        <td>
+          <ul class=flashes>
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        </td>
+      </tr>
+    </table>
     {% endif %}
     {% endwith %}
     <br>
-
-
+    
     <table id="booking_data" style="margin-left: auto;
       margin-right: auto;">
       <thead style="background-color: #B6D4E7;">
