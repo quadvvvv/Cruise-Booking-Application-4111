@@ -549,7 +549,7 @@ def book_cruise():
     cursor = g.conn.execute('SELECT * FROM destinations d WHERE d.dest_id = (%s)',sail_from)
     sail_from_dest_record = cursor.fetchone()
 
-    if (sail_to_dest_record['dest_is_domestic'] == "FALSE") or (sail_from_dest_record['dest_is_domestic'] == "FASLE"):
+    if (sail_to_dest_record['dest_is_domestic'] == False) or (sail_from_dest_record['dest_is_domestic'] == False):
       print("falsh prepared")
       flash("🛃   The cruise you've booked may need your PASSPORT, please be prepared!   🛃")
 
