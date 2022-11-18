@@ -285,7 +285,7 @@ def user_register():
     g.conn.execute('INSERT INTO credentials(cred_id, cust_username, cust_password) VALUES(%s, %s, %s)', args)
   except:
     traceback.print_exc()
-    context = dict(regMsg = "Invalid username ⚠️, please try again⚠️")
+    context = dict(regMsg = "Invalid username or password ⚠️, please try again⚠️")
     return render_template("register.html", **context)
   
   # randomly assign cust_id
@@ -536,6 +536,22 @@ def book_cruise():
 
     booking_record = cursor.fetchone()
 
+    # determine if the cruise is oversea and pop message if needed passport
+    sail_to = None
+    sail_from = None
+    cursor = g.conn.execute('SELECT dest_id FROM sail_to s WHERE s.cruise_id = (%s)', cruise_id)
+    sail_to = cursor.fetchone()['dest_id']
+    cursor = g.conn.execute('SELECT dest_id FROM sail_from s WHERE s.cruise_id = (%s)', cruise_id)
+    sail_from = cursor.fetchone()['dest_id']
+
+    cursor = g.conn.execute('SELECT * FROM destinations d WHERE d.dest_id = (%s)',sail_to)
+    sail_to_dest_record = cursor.fetchone()
+    cursor = g.conn.execute('SELECT * FROM destinations d WHERE d.dest_id = (%s)',sail_from)
+    sail_from_dest_record = cursor.fetchone()
+
+    if (sail_to_dest_record['dest_is_domestic'] == "FALSE") or (sail_from_dest_record['dest_is_domestic'] == "FASLE"):
+      flash("🛃   The cruise you've booked may need your PASSPORT, please be prepared!   🛃")
+
     context.update(bookRecord = booking_record)
     context.update(promptMsg = "🎉 Congratulations on your successful booking! 🎉")
     return render_template("booking_results.html", **context)
@@ -573,7 +589,6 @@ def directly_book():
   is_domestic_loc = request.form['is_domestic']
 
   #SELECT s1.cruise_id, s1.dest_id AS to_dest, s2.dest_id AS from_dest
-
   # reference: https://www.programcreek.com/python/example/51986/sqlalchemy.sql.text
   params = {}
   text = "SELECT * FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id "
