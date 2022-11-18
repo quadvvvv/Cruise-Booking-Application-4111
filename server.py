@@ -579,16 +579,20 @@ def directly_book():
   text = "SELECT * FROM cruises c, sail_to s1, sail_from s2, destinations d1, destinations d2 WHERE c.cruise_id = s1.cruise_id AND s1.cruise_id = s2.cruise_id AND s1.dest_id = d1.dest_id AND s2.dest_id = d2.dest_id "
 
   if cust_budget_loc != "":
-    query_con_1 = "AND c.cruise_cost <= :cruise_cost "
+    text += " AND c.cruise_cost <= :cruise_cost "
+    params['cruise_cost'] = cust_budget_loc
 
   if cust_rating_loc != "":
-    query_con_2 = "AND c.cruise_rating >= {} "
+    text += " AND c.cruise_rating >= :cruise_rating "
+    params['cruise_rating'] = cust_rating_loc
 
   if cust_specialty_loc != "":
-    query_con_3 = "AND (d1.dest_specialty = \"{}\" OR d2.dest_specialty = \"{}\" ) "
+    text += " AND (d1.dest_specialty = :cust_specialty OR d2.dest_specialty = :cust_specialty ) "
+    params['cust_specialty'] = cust_specialty_loc
 
   if cust_climate_loc != "":
-    query_con_4 = "AND (d1.dest_climate = \"{}\" OR d2.dest_climate = \"{}\" ) "
+    text += " AND (d1.dest_climate = :cust_climate OR d2.dest_climate = :cust_climate ) "
+    params['cust_climate'] = cust_climate_loc
 
   # if is_domestic_loc != "":
   #   if is_domestic_loc == "FALSE": # can be overseas 
